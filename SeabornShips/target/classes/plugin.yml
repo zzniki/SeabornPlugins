@@ -1,0 +1,11 @@
+name: SeabornShips
+version: '1.0-SNAPSHOT'
+main: com.seaborn.seabornShips.SeabornShips
+api-version: '1.21'
+authors: [ Niki ]
+depend: [NBTAPI, ProtocolLib ]
+commands:
+  boat:
+    description: SeabornShips boats
+    usage: /<command> <cmd> <arg>
+    permission: seaborn.boat

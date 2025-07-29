@@ -1,0 +1,11 @@
+id: epicElixir
+disabled: false
+
+item:
+  material: HONEY_BOTTLE
+  displayname: <light_purple>Epic Elixir
+  glowing: true
+application-weight: 7
+rarities:
+  - Epic
+max-baits: 64

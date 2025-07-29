@@ -1,0 +1,6 @@
+name: SeabornMap
+version: '1.0-SNAPSHOT'
+main: com.seaborn.seabornMap.SeabornMap
+api-version: '1.21'
+load: STARTUP
+authors: [Niki]

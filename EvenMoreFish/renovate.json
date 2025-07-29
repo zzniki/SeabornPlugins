@@ -1,0 +1,88 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":disableRateLimiting"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["io.papermc.paper:paper-api"],
+      "allowedVersions": "1.21.4-R0.1-SNAPSHOT"
+    },
+    {
+      "matchPackagePrefixes": ["com.sk89q.worldguard"],
+      "allowedVersions": "7.0.9"
+    },
+    {
+      "matchPackagePrefixes": ["com.sk89q.worldedit"],
+      "allowedVersions": "7.3.0"
+    },
+    {
+      "matchPackagePrefixes": ["br.net.fabiozumbi12.RedProtect"],
+      "allowedVersions": "7.7.3"
+    },
+    {
+      "matchPackagePrefixes": ["com.sk89q.worldguard"],
+      "groupName": "WorldGuard"
+    },
+    {
+      "matchPackagePrefixes": ["com.sk89q.worldedit"],
+      "groupName": "WorldEdit"
+    },
+    {
+      "matchPackageNames": ["com.willfp:EcoItems"],
+      "allowedVersions": "5.46.0"
+    },
+    {
+      "matchPackageNames": ["com.willfp:eco"],
+      "allowedVersions": "6.56.0"
+    },
+    {
+      "matchPackageNames": ["com.willfp:libreforge"],
+      "allowedVersions": "4.21.1"
+    },
+    {
+      "matchPackageNames": ["com.github.TechFortress:GriefPrevention"],
+      "allowedVersions": "~16.18.0"
+    },
+    {
+      "matchPackagePrefixes": ["org.flywaydb:"],
+      "groupName": "Flyway",
+      "allowedVersions": "~10.0.0"
+    },
+    {
+      "matchPackageNames": ["org.xerial:sqlite-jdbc"],
+      "allowedVersions": "3.47.0.0"
+    },
+    {
+      "matchPackagePrefixes": ["org.jooq:"],
+      "groupName": "jOOQ",
+      "allowedVersions": "~3.19.0"
+    },
+    {
+      "matchPackagePrefixes": ["nu.studer.jooq:"],
+      "allowedVersions": "~9.0"
+    },
+    {
+      "matchUpdateTypes": ["patch", "minor"],
+      "matchCurrentVersion": "!/^0/",
+      "groupName": "non-major updates",
+      "schedule": ["before 5am on monday"]
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "groupName": "major updates",
+      "dependencyDashboardApproval": true
+    }
+  ],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 0,
+  "rangeStrategy": "bump",
+  "dependencyDashboard": true,
+  "ignoreDeps": ["org.gradle.toolchains.foojay-resolver-convention"]
+}

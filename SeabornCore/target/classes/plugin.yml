@@ -1,0 +1,6 @@
+name: SeabornCore
+version: '1.0-SNAPSHOT'
+main: com.seaborn.seabornCore.SeabornCore
+api-version: '1.21'
+load: STARTUP
+authors: [ Niki ]

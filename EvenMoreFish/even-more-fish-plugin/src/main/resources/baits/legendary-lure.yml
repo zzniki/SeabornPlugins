@@ -1,0 +1,12 @@
+id: legendaryLure
+disabled: false
+
+item:
+  material: GOLDEN_CARROT
+  displayname: <gold>Legendary Lure
+  glowing: true
+rarities:
+  - Legendary
+catch-weight: 2
+application-weight: 40
+max-baits: 20

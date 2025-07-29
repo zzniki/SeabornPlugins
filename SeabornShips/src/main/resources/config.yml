@@ -1,0 +1,21 @@
+boats:
+  starter:
+    name: "Starter Boat"
+    speed: 4
+    entity-model: "seaborn_items:raft"
+    lore:
+      - "&7A basic boat for beginners"
+
+  swift:
+    name: "Swift Sailor"
+    speed: 1.3
+    entity-model: "seaborn_items:raft"
+    lore:
+      - "&7A basic boat for beginners"
+
+  cargo:
+    name: "Cargo Crawler"
+    speed: 0.7
+    entity-model: "seaborn_items:raft"
+    lore:
+      - "&7A basic boat for beginners"

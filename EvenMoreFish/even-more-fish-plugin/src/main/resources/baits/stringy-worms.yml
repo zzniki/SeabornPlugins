@@ -1,0 +1,13 @@
+id: stringyWorms
+disabled: false
+
+item:
+  material: STRING
+  displayname: <yellow>Stringy Worms
+  glowing: true
+rarities:
+  - Common
+  - Legendary
+catch-weight: 20
+application-weight: 40
+max-baits: 16
