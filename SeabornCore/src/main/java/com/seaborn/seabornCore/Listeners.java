@@ -1,5 +1,6 @@
 package com.seaborn.seabornCore;
 
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
@@ -15,6 +16,12 @@ import java.time.Duration;
 import static org.bukkit.Bukkit.getServer;
 
 public class Listeners implements Listener {
+
+    SeabornCore plugin;
+
+    public Listeners(SeabornCore plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -32,6 +39,10 @@ public class Listeners implements Listener {
 
         event.getPlayer().playSound(
                 Sound.sound().type(Key.key("seaborn_sounds", "morning")).source(Sound.Source.RECORD).volume(.5f).build()
+        );
+
+        event.getPlayer().showBossBar(
+                this.plugin.bossbars.getGlobalBar()
         );
     }
 
