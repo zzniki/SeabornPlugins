@@ -19,6 +19,7 @@ public class Fish {
     private float worthMultiplier = 1;
     private NamespacedKey itemModel;
     private Rarity rarity;
+    private float randomWeight = 1f;
 
     public Fish(Rarity rarity, String id, String displayName, float minWeight, float maxWeight, NamespacedKey itemModel) {
         this.rarity = rarity;
@@ -95,6 +96,14 @@ public class Fish {
 
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
+    }
+
+    public float getRandomWeight() {
+        return randomWeight;
+    }
+
+    public void setRandomWeight(float randomWeight) {
+        this.randomWeight = randomWeight;
     }
 
     public List<Component> getLore(float weight, Player player) {

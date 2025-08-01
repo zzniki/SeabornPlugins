@@ -4,3 +4,4 @@ main: com.seaborn.seabornFishing.SeabornFishing
 api-version: '1.21'
 load: STARTUP
 authors: [ Niki ]
+depend: [WorldGuard, NBTAPI]

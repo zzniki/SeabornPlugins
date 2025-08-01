@@ -1,13 +1,17 @@
 package com.seaborn.seabornFishing;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Region {
 
     private String id;
     private String displayName;
     private String worldguardId;
-    private List<Fish> availableFish;
+    private Set<Fish> availableFish;
+    private int priority = 0;
 
     public Region(String id, String displayName, String worldguardId) {
         this.id = id;
@@ -39,11 +43,36 @@ public class Region {
         this.worldguardId = worldguardId;
     }
 
-    public List<Fish> getAvailableFish() {
+    public Set<Fish> getAvailableFish() {
         return availableFish;
     }
+    public Set<Rarity> getAvailableRarities() {
+        Set<Rarity> result = new HashSet<Rarity>();
 
-    public void setAvailableFish(List<Fish> availableFish) {
+        for (Fish fish : this.getAvailableFish()) {
+            result.add(fish.getRarity());
+        }
+
+        return result;
+
+    }
+
+    public List<Fish> getFishOfRarity(Rarity rarity) {
+        return this.getAvailableFish()
+                .stream()
+                .filter(f -> f.getRarity().getId().equals(rarity.getId()))
+                .toList();
+    }
+
+    public void setAvailableFish(Set<Fish> availableFish) {
         this.availableFish = availableFish;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

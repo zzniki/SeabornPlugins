@@ -1,5 +1,7 @@
 package com.seaborn.seabornFishing;
 
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,5 +34,7 @@ public class Config {
     public CustomRod getCustomRod(String id) {
         return this.customRods.get(id);
     }
+    public boolean hasRegion(String id) { return this.regions.containsKey(id); }
+    public Region getRegion(String id) { return this.regions.get(id); }
 
 }
