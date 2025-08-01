@@ -1,6 +1,10 @@
 package com.seaborn.seabornFishing;
 
 import com.seaborn.seabornFishing.events.GameEndEvent;
+import com.seaborn.seabornFishing.minigames.GameSchedule;
+import com.seaborn.seabornFishing.minigames.GameScheduler;
+import com.seaborn.seabornFishing.rewards.FishItemReward;
+import com.seaborn.seabornFishing.rewards.FishReward;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -16,7 +20,9 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.*;
+import java.util.logging.Level;
 
+import static org.bukkit.Bukkit.getLogger;
 import static org.bukkit.Bukkit.getServer;
 
 public class Listeners implements Listener {
@@ -74,7 +80,24 @@ public class Listeners implements Listener {
 
         // On line cast
         if (state == PlayerFishEvent.State.FISHING) {
-            GameSchedule schedule = this.scheduler.createSchedule(event.getPlayer());
+
+            Player player = event.getPlayer();
+
+            ItemStack rod = player.getInventory().getItemInMainHand();
+            if (rod.getType() != Material.FISHING_ROD) {
+                event.setCancelled(true);
+                return;
+            }
+
+            Fish selectedFish = FishSelector.selectFish(event.getHook(), player, rod);
+            if (selectedFish == null) {
+                getLogger().log(Level.SEVERE, "Could not find a valid fish for " + player.getName());
+                event.setCancelled(true);
+                return;
+            }
+
+            FishItemReward reward = new FishItemReward(selectedFish, player);
+            GameSchedule schedule = this.scheduler.createSchedule(player, reward);
 
             int waitTime = (int) Math.round((schedule.getTotalTime()) * getServer().getTPS()[1]);
             event.getHook().setMinWaitTime(waitTime);

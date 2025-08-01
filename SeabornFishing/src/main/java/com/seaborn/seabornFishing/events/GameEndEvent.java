@@ -1,6 +1,6 @@
 package com.seaborn.seabornFishing.events;
 
-import com.seaborn.seabornFishing.GameSchedule;
+import com.seaborn.seabornFishing.minigames.GameSchedule;
 import com.seaborn.seabornFishing.Minigame;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

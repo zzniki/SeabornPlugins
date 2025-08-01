@@ -1,6 +1,7 @@
 package com.seaborn.seabornFishing;
 
 import com.seaborn.seabornFishing.events.GameEndEvent;
+import com.seaborn.seabornFishing.minigames.GameSchedule;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,6 +1,7 @@
 package com.seaborn.seabornFishing;
 
 import com.seaborn.seabornFishing.emote.EmoteListener;
+import com.seaborn.seabornFishing.minigames.GameScheduler;
 import com.seaborn.seabornFishing.minigames.NumbersGame;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +12,7 @@ public final class SeabornFishing extends JavaPlugin {
 
     public Map<String, Minigame> minigames = new HashMap<String, Minigame>();
     public GameScheduler scheduler;
+    public static Config config;
 
     private void loadMinigames() {
 
@@ -25,6 +27,9 @@ public final class SeabornFishing extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        config = new Config();
+        config.loadConfig();
 
         this.loadMinigames();
         getServer().getLogger().info("Loaded " + minigames.keySet().size() + " fishing minigames!");
