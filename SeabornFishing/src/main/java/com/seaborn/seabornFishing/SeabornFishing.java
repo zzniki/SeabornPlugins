@@ -1,8 +1,11 @@
 package com.seaborn.seabornFishing;
 
+import com.seaborn.seabornFishing.commands.RodCommand;
 import com.seaborn.seabornFishing.emote.EmoteListener;
 import com.seaborn.seabornFishing.minigames.GameScheduler;
 import com.seaborn.seabornFishing.minigames.NumbersGame;
+import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -26,6 +29,14 @@ public final class SeabornFishing extends JavaPlugin {
     }
 
     @Override
+    public void onLoad() {
+        /*CommandAPIBukkitConfig config = new CommandAPIBukkitConfig(this)
+                .shouldHookPaperReload(true)
+                .missingExecutorImplementationMessage("You are not able to use this command!");
+        CommandAPI.onLoad(config);*/
+    }
+
+    @Override
     public void onEnable() {
 
         config = new Config();
@@ -39,10 +50,29 @@ public final class SeabornFishing extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Listeners(scheduler, this), this);
         getServer().getPluginManager().registerEvents(new EmoteListener(), this);
 
+        //CommandAPI.onEnable();
+        this.registerCommands();
+
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
+        terminateGuis();
+        //CommandAPI.onDisable();
+
+    }
+
+    private void registerCommands() {
+        new RodCommand(this).getCommand().register(this);
+    }
+
+    private void terminateGuis() {
+        /*getServer().getOnlinePlayers().forEach(player -> {
+            InventoryGui inventoryGui = InventoryGui.getOpen(player);
+            if (inventoryGui != null) {
+                inventoryGui.close();
+            }
+        });*/
     }
 }

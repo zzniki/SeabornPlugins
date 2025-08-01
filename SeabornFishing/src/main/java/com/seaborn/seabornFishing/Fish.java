@@ -2,6 +2,8 @@ package com.seaborn.seabornFishing;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
@@ -106,14 +108,14 @@ public class Fish {
         this.randomWeight = randomWeight;
     }
 
-    public List<Component> getLore(float weight, Player player) {
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.text(Utils.formatText(this.shortDescription)));
+    public List<TextComponent> getLore(float weight, Player player) {
+        List<TextComponent> lore = new ArrayList<>();
+        lore.add(Component.text(ChatColor.WHITE + Utils.formatText(this.shortDescription)));
         lore.add(Component.text(""));
-        lore.add(Component.text("Caught by " + player.getName()));
-        lore.add(Component.text("Weights " + weight + "kg"));
+        lore.add(Component.text(ChatColor.WHITE + "Caught by " + player.getName()));
+        lore.add(Component.text(ChatColor.WHITE + "Weights " + String.valueOf(Math.round(weight * 100f) / 100f) + "kg"));
         lore.add(Component.text(""));
-        lore.add(Component.text(Utils.formatText(this.getRarity().getDisplayName())));
+        lore.add(Component.text(ChatColor.WHITE + Utils.formatText(this.getRarity().getDisplayName())));
         return lore;
     }
 

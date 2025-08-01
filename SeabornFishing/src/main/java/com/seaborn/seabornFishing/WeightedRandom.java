@@ -41,7 +41,7 @@ public class WeightedRandom {
             }
 
             // Apply luck
-            double withLuck = Math.pow(base, 1.0 - luck);
+            double withLuck = Math.pow(base, 1.0 - (luck - 1.0));
             effectiveWeights[i] = withLuck;
             totalWeight += withLuck;
         }

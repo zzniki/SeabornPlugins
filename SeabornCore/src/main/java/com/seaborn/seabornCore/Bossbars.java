@@ -2,6 +2,7 @@ package com.seaborn.seabornCore;
 
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
+import org.bukkit.World;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +23,11 @@ public class Bossbars {
     }
 
     public void updateGlobalBar() {
-        long gameTime = getServer().getWorld("world").getTime();
+        World world = getServer().getWorld("world");
+
+        if (world == null) return;
+
+        long gameTime = world.getTime();
         long hours = gameTime / 1000 + 6;
         long minutes = (gameTime % 1000) * 60 / 1000;
         String ampm = "AM";

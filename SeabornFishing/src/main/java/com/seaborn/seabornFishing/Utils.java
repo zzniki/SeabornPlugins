@@ -9,9 +9,12 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import de.tr7zw.nbtapi.NBT;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class Utils {
 
@@ -22,15 +25,16 @@ public class Utils {
     }
 
     public static String formatText(String text) {
+        if (text == null) return "";
         return text.replaceAll("&", "§");
     }
 
-    public static RodProperties getRodProperties(ItemStack item) {
+    public static CustomRodItem getRodProperties(ItemStack item) {
 
-        String rodType = NBT.get(item, nbt -> (String) nbt.getString("rod-type"));
+        String rodType = NBT.get(item, nbt -> (String) nbt.getString("rod_type"));
         CustomRod baseRod = SeabornFishing.config.getCustomRod(rodType);
 
-        RodProperties prop = new RodProperties(baseRod);
+        CustomRodItem prop = new CustomRodItem(baseRod);
         prop.loadItemStack(item);
         return prop;
     }
@@ -45,6 +49,7 @@ public class Utils {
         for (ProtectedRegion region : set.getRegions()) {
             if (!SeabornFishing.config.hasRegion(region.getId())) continue;
 
+            getServer().broadcast(Component.text(region.getId()));
             Region cRegion = SeabornFishing.config.getRegion(region.getId());
 
             if (finalRegion == null) {
@@ -53,6 +58,13 @@ public class Utils {
             }
 
             if (cRegion.getPriority() >= finalRegion.getPriority()) finalRegion = cRegion;
+        }
+
+        // Default to global region
+        if (finalRegion == null) {
+            if (SeabornFishing.config.getRegions().containsKey("global")) {
+                finalRegion = SeabornFishing.config.getRegion("global");
+            }
         }
 
         return finalRegion;

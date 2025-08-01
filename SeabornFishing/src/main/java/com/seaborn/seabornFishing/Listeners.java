@@ -98,7 +98,9 @@ public class Listeners implements Listener {
 
             FishItemReward reward = new FishItemReward(selectedFish, player);
             GameSchedule schedule = this.scheduler.createSchedule(player, reward);
+            getServer().getPluginManager().registerEvents(schedule, this.plugin); // Register schedule listeners
 
+            // Set actual wait time
             int waitTime = (int) Math.round((schedule.getTotalTime()) * getServer().getTPS()[1]);
             event.getHook().setMinWaitTime(waitTime);
             event.getHook().setMaxWaitTime(waitTime);

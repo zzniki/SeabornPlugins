@@ -10,7 +10,7 @@ public class Region {
     private String id;
     private String displayName;
     private String worldguardId;
-    private Set<Fish> availableFish;
+    private Set<Fish> availableFish = new HashSet<>();
     private int priority = 0;
 
     public Region(String id, String displayName, String worldguardId) {

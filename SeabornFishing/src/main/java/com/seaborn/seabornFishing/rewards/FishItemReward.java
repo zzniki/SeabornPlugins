@@ -4,6 +4,7 @@ import com.seaborn.seabornFishing.Fish;
 import com.seaborn.seabornFishing.Utils;
 import de.tr7zw.nbtapi.NBT;
 import net.kyori.adventure.text.Component;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,19 +25,27 @@ public class FishItemReward extends FishReward {
 
         this.item = new ItemStack(Material.COD);
         this.item.editMeta(meta -> {
-            meta.setItemModel(fish.getItemModel());
+            if (fish.getItemModel() != null) meta.setItemModel(fish.getItemModel());
             meta.lore(fish.getLore(weight, player));
-            meta.displayName(Component.text(Utils.formatText(fish.getDisplayName())));
+            meta.displayName(Component.text(ChatColor.AQUA + Utils.formatText(fish.getDisplayName())));
         });
 
         NBT.modify(this.item, nbt -> {
+            nbt.setString("sb_item_type", "fish");
             nbt.setFloat("weight", weight);
+            nbt.setString("fish_type", fish.getId());
+            nbt.setString("caught_by", player.getName());
+            nbt.setString("rarity", fish.getRarity().getId());
         });
     }
 
     @Override
     public void giveToPlayer(Player player) {
         player.getInventory().addItem(item);
+    }
+
+    public ItemStack getItem() {
+        return this.item;
     }
 
 }

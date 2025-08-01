@@ -1,16 +1,40 @@
 package com.seaborn.seabornFishing;
 
 import de.tr7zw.nbtapi.NBT;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class RodProperties {
+public class CustomRodItem {
 
     private CustomRod baseRod;
     private float luckMultiplier;
     private float difficulty;
 
-    public RodProperties(CustomRod baseRod) {
+    public CustomRodItem(CustomRod baseRod) {
         this.baseRod = baseRod;
+        this.luckMultiplier = 1f;
+        this.difficulty = 1f;
+    }
+
+    public ItemStack getItemStack() {
+        ItemStack item = new ItemStack(Material.FISHING_ROD);
+
+        item.editMeta(meta -> {
+            // TODO: Lore
+            //meta.lore(String.valueOf(this.baseRod.getLuckMultiplier()));
+            meta.displayName(Component.text(Utils.formatText(this.getBaseRod().getDisplayName())));
+            meta.setItemModel(this.baseRod.getItemModel());
+        });
+
+        NBT.modify(item, nbt -> {
+            nbt.setString("sb_item_type", "rod");
+            nbt.setString("rod_type", this.baseRod.getId());
+            nbt.setFloat("luck", this.getLuckMultiplier());
+            nbt.setFloat("difficulty", this.getDifficulty());
+        });
+
+        return item;
     }
 
     public void loadItemStack(ItemStack item) {

@@ -2,8 +2,12 @@ package com.seaborn.seabornFishing.minigames;
 
 import com.seaborn.seabornFishing.Minigame;
 import com.seaborn.seabornFishing.SeabornFishing;
+import com.seaborn.seabornFishing.rewards.FishItemReward;
 import com.seaborn.seabornFishing.rewards.FishReward;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 
 import java.util.ArrayList;
@@ -11,7 +15,7 @@ import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
 
-public class GameSchedule {
+public class GameSchedule implements Listener {
 
     private List<Minigame> scheduledGames = new ArrayList<>();
     private Player player;
@@ -64,6 +68,27 @@ public class GameSchedule {
 
     public PlayerFishEvent getInitialEvent() {
         return this.initialEvent;
+    }
+
+    private void cleanup() {
+        PlayerFishEvent.getHandlerList().unregister(this);
+    }
+
+    @EventHandler
+    public void onFish(PlayerFishEvent event) {
+        if (event.getState() == PlayerFishEvent.State.CAUGHT_FISH) {
+
+            Item item = (Item) event.getCaught();
+            if (item == null) return;
+
+            if (this.reward instanceof FishItemReward) {
+                item.setItemStack(((FishItemReward) this.reward).getItem());
+            } else {
+                this.reward.giveToPlayer(player);
+            }
+
+            this.cleanup();
+        }
     }
 
 }

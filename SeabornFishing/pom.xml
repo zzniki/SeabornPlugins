@@ -107,5 +107,13 @@
             <version>7.0.10</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- CommandAPI -->
+        <dependency>
+            <groupId>dev.jorel</groupId>
+            <artifactId>commandapi-bukkit-core</artifactId>
+            <version>10.1.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
