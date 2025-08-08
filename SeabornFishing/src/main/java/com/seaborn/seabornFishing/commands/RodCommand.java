@@ -4,14 +4,11 @@ import com.seaborn.seabornFishing.CustomRod;
 import com.seaborn.seabornFishing.CustomRodItem;
 import com.seaborn.seabornFishing.SeabornFishing;
 import de.tr7zw.nbtapi.NBT;
-import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.FloatArgument;
-import dev.jorel.commandapi.arguments.GreedyStringArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
-import net.kyori.adventure.text.Component;
+import dev.jorel.commandapi.arguments.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -39,9 +36,11 @@ public class RodCommand {
 
     private CommandAPICommand getGive() {
 
+        ArgumentSuggestions<CommandSender> suggestions = ArgumentSuggestions.strings(info -> SeabornFishing.config.getCustomRods().keySet().toArray(String[]::new));
+
         return new CommandAPICommand("give")
                 .withPermission("seaborn.rod.give")
-                .withArguments(new GreedyStringArgument("type"))
+                .withArguments(new StringArgument("type").replaceSuggestions(suggestions))
                 .executes((sender, args) -> {
                     String id = (String) args.get("type");
 

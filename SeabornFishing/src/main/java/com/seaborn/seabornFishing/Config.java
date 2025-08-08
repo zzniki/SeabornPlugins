@@ -1,5 +1,6 @@
 package com.seaborn.seabornFishing;
 
+import com.seaborn.seabornFishing.api.APILoader;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.NamespacedKey;
 
@@ -13,6 +14,12 @@ public class Config {
     private Map<String, Rarity> rarities = new HashMap<>();
     private Map<String, Region> regions = new HashMap<>();
     private Map<String, Fish> fish = new HashMap<>();
+
+    private SeabornFishing plugin;
+
+    public Config(SeabornFishing plugin) {
+        this.plugin = plugin;
+    }
 
     public void loadConfig() {
 
@@ -45,6 +52,25 @@ public class Config {
 
         this.regions.get("global").addFish(this.fish.get("carp"));
 
+    }
+
+    public void loadConfigFromAPI() {
+        APILoader loader = new APILoader(this.plugin);
+        try {
+            this.rarities = loader.loadRarities();
+            this.plugin.getLogger().info("Loaded " + String.valueOf(this.rarities.keySet().size()) + " rarities!");
+
+            this.fish = loader.loadFish(this.rarities);
+            this.plugin.getLogger().info("Loaded " + String.valueOf(this.fish.keySet().size()) + " fish!");
+
+            this.regions = loader.loadRegions(this.fish);
+            this.plugin.getLogger().info("Loaded " + String.valueOf(this.regions.keySet().size()) + " regions!");
+
+            this.customRods = loader.loadRods();
+            this.plugin.getLogger().info("Loaded " + String.valueOf(this.customRods.keySet().size()) + " custom rods!");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public CustomRod getCustomRod(String id) {

@@ -14,12 +14,15 @@ com\seaborn\seabornFishing\Utils.class
 com\seaborn\seabornFishing\emote\EmoteListener.class
 com\seaborn\seabornFishing\minigames\GameScheduler.class
 com\seaborn\seabornFishing\Minigame$1.class
+com\seaborn\seabornFishing\commands\FishCommand.class
 com\seaborn\seabornFishing\rewards\FishReward.class
 com\seaborn\seabornFishing\SeabornFishing.class
 com\seaborn\seabornFishing\CustomRodItem.class
 com\seaborn\seabornFishing\Minigame.class
 com\seaborn\seabornFishing\Region.class
+com\seaborn\seabornFishing\api\APILoader.class
 com\seaborn\seabornFishing\Listeners.class
+com\seaborn\seabornFishing\api\APISettings.class
 com\seaborn\seabornFishing\CustomRod.class
 com\seaborn\seabornFishing\commands\RodCommand.class
 com\seaborn\seabornFishing\minigames\NumbersGame$1.class

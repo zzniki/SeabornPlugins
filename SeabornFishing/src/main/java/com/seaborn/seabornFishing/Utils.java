@@ -10,6 +10,7 @@ import de.tr7zw.nbtapi.NBT;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +27,7 @@ public class Utils {
 
     public static String formatText(String text) {
         if (text == null) return "";
-        return text.replaceAll("&", "§");
+        return ChatColor.translateAlternateColorCodes('&', text);
     }
 
     public static CustomRodItem getRodProperties(ItemStack item) {
@@ -49,7 +50,6 @@ public class Utils {
         for (ProtectedRegion region : set.getRegions()) {
             if (!SeabornFishing.config.hasRegion(region.getId())) continue;
 
-            getServer().broadcast(Component.text(region.getId()));
             Region cRegion = SeabornFishing.config.getRegion(region.getId());
 
             if (finalRegion == null) {

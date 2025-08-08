@@ -41,9 +41,7 @@ public class EmoteListener implements Listener {
 
     public void startEmote(Player player, ItemStack item) {
         float length = NBT.get(item, nbt -> {
-            ReadableNBT compound = nbt.getCompound("evenmorefish");
-            if (compound ==  null) return 10f;
-            return compound.getFloat("emf-fish-length");
+            return nbt.getFloat("weight");
         });
 
         float size = length / 30f;

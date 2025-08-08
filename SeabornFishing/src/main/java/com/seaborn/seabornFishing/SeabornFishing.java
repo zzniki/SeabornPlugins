@@ -39,8 +39,10 @@ public final class SeabornFishing extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        config = new Config();
-        config.loadConfig();
+        getLogger().info("Loading SeabornFishing...");
+
+        config = new Config(this);
+        config.loadConfigFromAPI();
 
         this.loadMinigames();
         getServer().getLogger().info("Loaded " + minigames.keySet().size() + " fishing minigames!");
