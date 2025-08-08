@@ -1,5 +1,6 @@
 package com.seaborn.seabornFishing;
 
+import com.seaborn.seabornFishing.commands.FishCommand;
 import com.seaborn.seabornFishing.commands.RodCommand;
 import com.seaborn.seabornFishing.emote.EmoteListener;
 import com.seaborn.seabornFishing.minigames.GameScheduler;
@@ -67,6 +68,7 @@ public final class SeabornFishing extends JavaPlugin {
 
     private void registerCommands() {
         new RodCommand(this).getCommand().register(this);
+        new FishCommand(this).getCommand().register(this);
     }
 
     private void terminateGuis() {
