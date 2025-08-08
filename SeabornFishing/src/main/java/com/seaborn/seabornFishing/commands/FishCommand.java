@@ -49,7 +49,7 @@ public class FishCommand {
 
                     if (!(sender instanceof Player)) return;
 
-                    if (!SeabornFishing.config.getCustomRods().containsKey(id)) {
+                    if (!SeabornFishing.config.getFish().containsKey(id)) {
                         sender.sendMessage(ChatColor.RED + "Fish does not exist");
                         return;
                     }

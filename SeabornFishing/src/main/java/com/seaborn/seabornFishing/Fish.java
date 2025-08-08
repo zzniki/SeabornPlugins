@@ -110,7 +110,7 @@ public class Fish {
 
     public List<TextComponent> getLore(float weight, Player player) {
         List<TextComponent> lore = new ArrayList<>();
-        lore.add(Component.text(ChatColor.WHITE + Utils.formatText(this.shortDescription)));
+        lore.add(Component.text(ChatColor.GRAY + Utils.formatText(this.shortDescription)));
         lore.add(Component.text(""));
         lore.add(Component.text(ChatColor.WHITE + "Caught by " + player.getName()));
         lore.add(Component.text(ChatColor.WHITE + "Weights " + String.valueOf(Math.round(weight * 100f) / 100f) + "kg"));
