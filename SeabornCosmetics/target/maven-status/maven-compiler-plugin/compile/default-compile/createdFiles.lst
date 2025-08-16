@@ -1,0 +1,7 @@
+com\seabornmc\seabornCosmetics\Utils.class
+com\seabornmc\seabornCosmetics\cosmetics\items\HatItem.class
+com\seabornmc\seabornCosmetics\CosmeticManager.class
+com\seabornmc\seabornCosmetics\SeabornCosmetics.class
+com\seabornmc\seabornCosmetics\APILoader.class
+com\seabornmc\seabornCosmetics\cosmetics\Hat.class
+com\seabornmc\seabornCosmetics\commands\HatsCommand.class
