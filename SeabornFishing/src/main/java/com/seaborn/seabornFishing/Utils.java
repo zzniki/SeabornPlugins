@@ -10,10 +10,14 @@ import de.tr7zw.nbtapi.NBT;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Comparator;
+import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -28,6 +32,10 @@ public class Utils {
     public static String formatText(String text) {
         if (text == null) return "";
         return ChatColor.translateAlternateColorCodes('&', text);
+    }
+
+    public static Component formatTextMM(String text) {
+        return MiniMessage.miniMessage().deserialize(text);
     }
 
     public static CustomRodItem getRodProperties(ItemStack item) {
@@ -68,6 +76,13 @@ public class Utils {
         }
 
         return finalRegion;
+    }
+
+    public static char fishToChar(String id) {
+        List<String> ids = SeabornFishing.config.getFish().keySet().stream()
+                .sorted() // ensure the same as Python sorted by ID
+                .toList();
+        return (char) (0xa000 + ids.indexOf(id));
     }
 
 }

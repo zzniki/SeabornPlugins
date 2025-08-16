@@ -1,5 +1,6 @@
 package com.seaborn.seabornFishing.minigames;
 
+import com.seaborn.seabornFishing.CustomRodItem;
 import com.seaborn.seabornFishing.SeabornFishing;
 import com.seaborn.seabornFishing.rewards.FishReward;
 import de.tr7zw.nbtapi.NBT;
@@ -18,12 +19,17 @@ public class GameScheduler {
         GameSchedule schedule = new GameSchedule(player, reward);
 
         ItemStack rod = player.getInventory().getItemInMainHand();
-        float difficulty = NBT.get(rod, nbt -> {
 
-            Double diff = nbt.getDouble("difficulty");
-            return diff == null ? 1f : diff.floatValue();
+        String rodType = NBT.get(rod, nbt -> {
+
+            return nbt.getString("rod_type");
 
         });
+
+        CustomRodItem rodItem = new CustomRodItem(SeabornFishing.config.getCustomRod(rodType));
+        rodItem.loadItemStack(rod);
+
+        float difficulty = rodItem.getTotalDifficulty();
 
         schedule.addGame(plugin.minigames.get("numbers"), this.plugin, difficulty);
         return schedule;

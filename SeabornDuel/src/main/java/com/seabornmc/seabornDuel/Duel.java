@@ -1,22 +1,26 @@
 package com.seabornmc.seabornDuel;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-public class Duel {
+public class Duel implements Listener {
 
     private List<Player> team1;
     private List<Player> team2;
+    private List<Player> aliveTeam1;
+    private List<Player> aliveTeam2;
 
     private BoundingBox loc1;
     private BoundingBox loc2;
@@ -33,6 +37,10 @@ public class Duel {
     public Duel(SeabornDuel plugin, List<Player> team1, List<Player> team2, BoundingBox loc1, BoundingBox loc2) {
         this.team1 = team1;
         this.team2 = team2;
+
+        this.aliveTeam1 = new ArrayList<>(team1);
+        this.aliveTeam2 = new ArrayList<>(team2);
+
         this.loc1 = loc1;
         this.loc2 = loc2;
 
@@ -43,8 +51,6 @@ public class Duel {
         this.spawnRange = spawnRange;
         return this;
     }
-
-
 
 
     public Location getLocation(World world, BoundingBox teamloc, Random random) {
@@ -63,17 +69,53 @@ public class Duel {
 
         return result;
     }
-    public void startDuel (){
+    public void startDuel() {
         World world = this.plugin.getServer().getWorld("world");
         Random random = new Random();
 
-        for(Player player : team1){
+        for (Player player : team1){
             this.oldLocation.put(player, player.getLocation());
             player.teleport(getLocation(world, loc1, random))
         }
-        for(Player player : team2){
+        for (Player player : team2){
             this.oldLocation.put(player, player.getLocation());
             player.teleport(getLocation(world, loc1, random))
+        }
+
+        this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
+
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        Player player = event.getPlayer();
+
+        if (aliveTeam1.contains(player)) {
+            aliveTeam1.remove(player);
+
+            event.setCancelled(true);
+            player.setGameMode(GameMode.SPECTATOR);
+
+        } else if (aliveTeam2.contains(player)) {
+
+            event.setCancelled(true);
+            player.setGameMode(GameMode.SURVIVAL);
+
+            aliveTeam2.remove(player);
+        }
+
+
+        if (aliveTeam1.isEmpty() || aliveTeam2.isEmpty()) {
+            this.endDuel();
+        }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        if (team1.contains(player) || team2.contains(player)) {
+            player.setGameMode(GameMode.SURVIVAL);
+            player.teleport(this.oldLocation.get(player));
         }
     }
 
@@ -88,6 +130,10 @@ public class Duel {
             player.teleport(oldLocation.get(player));
         }
         this.inProgress = false;
+
+        PlayerQuitEvent.getHandlerList().unregister(this);
+        PlayerDeathEvent.getHandlerList().unregister(this);
+
     }
 
     public List<Player> getTeam2() {

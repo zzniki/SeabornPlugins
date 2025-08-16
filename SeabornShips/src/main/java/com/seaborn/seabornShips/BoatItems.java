@@ -22,7 +22,7 @@ public class BoatItems {
 
         List<TextComponent> lore = new ArrayList<>(boatType.getLore().stream().map(Component::text).toList());
         lore.add(Component.text(""));
-        lore.add(Component.text(ChatColor.AQUA + "Speed: " + ChatColor.GRAY + boatType.getSpeed() + " blocks/sec"));
+        lore.add(Component.text(ChatColor.WHITE + "Speed: " + ChatColor.DARK_AQUA + boatType.getSpeed() + " blocks/sec"));
 
         item.editMeta(meta -> {
             meta.customName(Component.text(boatType.getName().replaceAll("&", "§")));

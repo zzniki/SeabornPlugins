@@ -1,0 +1,8 @@
+com\seabornmc\seabornDialogs\DisplayManager.class
+com\seabornmc\seabornDialogs\dialogs\Dialog.class
+com\seabornmc\seabornDialogs\dialogs\OptionDialog.class
+com\seabornmc\seabornDialogs\dialogs\DialogManager.class
+com\seabornmc\seabornDialogs\SeabornDialogs.class
+com\seabornmc\seabornDialogs\Display.class
+com\seabornmc\seabornDialogs\commands\SpawnTestCommand.class
+com\seabornmc\seabornDialogs\interaction\InteractionListener.class

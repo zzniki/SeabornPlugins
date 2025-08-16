@@ -2,8 +2,14 @@ package com.seaborn.seabornFishing;
 
 import de.tr7zw.nbtapi.NBT;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomRodItem {
 
@@ -21,10 +27,10 @@ public class CustomRodItem {
         ItemStack item = new ItemStack(Material.FISHING_ROD);
 
         item.editMeta(meta -> {
-            // TODO: Lore
-            //meta.lore(String.valueOf(this.baseRod.getLuckMultiplier()));
-            meta.displayName(Component.text(Utils.formatText(this.getBaseRod().getDisplayName())));
+            meta.displayName(Component.text(ChatColor.AQUA + Utils.formatText(this.getBaseRod().getDisplayName())));
+            meta.lore(this.getLore());
             meta.setItemModel(this.baseRod.getItemModel());
+            ((Damageable) meta).setMaxDamage(this.baseRod.getUses());
         });
 
         NBT.modify(item, nbt -> {
@@ -73,5 +79,31 @@ public class CustomRodItem {
 
     public float getTotalLuck() { return this.getBaseLuck() * this.getLuckMultiplier(); }
     public float getTotalDifficulty() { return this.getBaseDifficulty() * this.getDifficulty(); }
+
+    public List<TextComponent> getLore() {
+        List<TextComponent> res = new ArrayList<>();
+
+        if (this.baseRod.getDescription() != null) {
+            List<String> desc = List.of(this.baseRod.getDescription().split("\n"));
+            for (String line : desc) {
+                res.add(Component.text(ChatColor.DARK_AQUA + Utils.formatText(line)));
+            }
+            res.add(Component.text(""));
+        }
+
+        String luckStr = String.valueOf(this.getTotalLuck());
+        String baseLuckStr = String.valueOf(this.getBaseLuck());
+        String rodLuckStr = String.valueOf(this.getLuckMultiplier());
+
+        res.add(Component.text(ChatColor.WHITE + "Luck: " + ChatColor.DARK_AQUA + luckStr + "x"));
+        res.add(Component.text(ChatColor.WHITE + "  ↳ Base: " + ChatColor.DARK_AQUA + baseLuckStr + "x"));
+        res.add(Component.text(ChatColor.WHITE + "  ↳ Rod: " + ChatColor.DARK_AQUA + rodLuckStr + "x"));
+
+        String diffStr = String.valueOf(this.getTotalDifficulty());
+        res.add(Component.text(""));
+        res.add(Component.text(ChatColor.WHITE + "Difficulty: " + ChatColor.DARK_AQUA + diffStr + "x"));
+
+        return res;
+    }
 
 }

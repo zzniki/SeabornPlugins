@@ -4,16 +4,14 @@ import com.seaborn.seabornFishing.api.APILoader;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.NamespacedKey;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Config {
 
     private Map<String, CustomRod> customRods = new HashMap<>();
     private Map<String, Rarity> rarities = new HashMap<>();
     private Map<String, Region> regions = new HashMap<>();
-    private Map<String, Fish> fish = new HashMap<>();
+    private SortedMap<String, Fish> fish = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     private SeabornFishing plugin;
 
@@ -103,11 +101,11 @@ public class Config {
         this.regions = regions;
     }
 
-    public Map<String, Fish> getFish() {
+    public SortedMap<String, Fish> getFish() {
         return fish;
     }
 
-    public void setFish(Map<String, Fish> fish) {
+    public void setFish(SortedMap<String, Fish> fish) {
         this.fish = fish;
     }
 }

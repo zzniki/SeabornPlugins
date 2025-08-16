@@ -1,0 +1,7 @@
+name: SeabornDialogs
+version: '1.1-SNAPSHOT'
+main: com.seabornmc.seabornDialogs.SeabornDialogs
+api-version: '1.21'
+load: STARTUP
+authors: [ Niki ]
+depend: [CommandAPI]

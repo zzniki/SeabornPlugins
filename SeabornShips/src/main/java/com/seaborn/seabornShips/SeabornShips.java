@@ -2,6 +2,7 @@ package com.seaborn.seabornShips;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,6 +40,10 @@ public final class SeabornShips extends JavaPlugin {
         getLogger().info("Loaded " + String.valueOf(this.boatTypes.keySet().size()) + " boat types.");
     }
 
+    public void loadBoatsFromAPI() {
+        boatTypes = APILoader.loadBoats();
+    }
+
     @Override
     public void onEnable() {
 
@@ -48,7 +53,9 @@ public final class SeabornShips extends JavaPlugin {
         getServer().getPluginManager().registerEvents(boatListener, this);
 
         this.saveDefaultConfig();
-        this.loadBoatTypes();
+        this.loadBoatsFromAPI();
+
+        getLogger().info("Loaded " + String.valueOf(boatTypes.keySet().size()) + " boats.");
 
         this.getCommand("boat").setExecutor(new Commands());
 

@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.HandlerList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,12 +73,17 @@ public class GameSchedule implements Listener {
 
     private void cleanup() {
         PlayerFishEvent.getHandlerList().unregister(this);
+        // Unregister all minigames
+        for (Minigame game : this.scheduledGames) {
+            HandlerList.unregisterAll(game);
+        }
     }
 
     @EventHandler
     public void onFish(PlayerFishEvent event) {
-        if (event.getState() == PlayerFishEvent.State.CAUGHT_FISH) {
+        if (!event.getPlayer().equals(this.player)) return; // Only handle events for this player
 
+        if (event.getState() == PlayerFishEvent.State.CAUGHT_FISH) {
             Item item = (Item) event.getCaught();
             if (item == null) return;
 

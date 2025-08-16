@@ -1,0 +1,7 @@
+name: SeabornWeapons
+version: '1.0-SNAPSHOT'
+main: com.seabornmc.seabornWeapons.SeabornWeapons
+api-version: '1.21'
+load: STARTUP
+authors: [ Niki ]
+depend: [ CommandAPI, NBTAPI]

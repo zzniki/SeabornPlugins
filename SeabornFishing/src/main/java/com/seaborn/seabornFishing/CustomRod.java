@@ -9,6 +9,8 @@ public class CustomRod {
     private float luckMultiplier = 1;
     private float difficulty = 1;
     private NamespacedKey itemModel;
+    private String description;
+    private int uses = 64;
 
     public CustomRod(String id, String displayName) {
         this.id = id;
@@ -49,5 +51,21 @@ public class CustomRod {
 
     public void setItemModel(NamespacedKey itemModel) {
         this.itemModel = itemModel;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getUses() {
+        return uses;
+    }
+
+    public void setUses(int uses) {
+        this.uses = uses;
     }
 }

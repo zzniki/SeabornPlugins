@@ -12,10 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 import static com.seaborn.seabornFishing.api.APISettings.API_BASE;
 
@@ -29,7 +26,7 @@ public class APILoader {
         this.plugin = plugin;
     }
 
-    public Map<String, Fish> loadFish(Map<String, Rarity> rarityMap) throws Exception {
+    public SortedMap<String, Fish> loadFish(Map<String, Rarity> rarityMap) throws Exception {
         String endpoint = "/items/Fish?fields=*";
         HttpRequest request = HttpRequest.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
@@ -45,7 +42,7 @@ public class APILoader {
         JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
         JsonArray data = root.getAsJsonArray("data");
 
-        Map<String, Fish> fishMap = new HashMap<>();
+        SortedMap<String, Fish> fishMap = new TreeMap<>();
 
         for (JsonElement element : data) {
             JsonObject obj = element.getAsJsonObject();
@@ -195,11 +192,15 @@ public class APILoader {
             String displayName = getAsString(obj, "display_name");
             float baseLuck = obj.has("base_luck") ? obj.get("base_luck").getAsFloat() : 1f;
             float difficulty = obj.has("difficulty") ? obj.get("difficulty").getAsFloat() : 1f;
+            String description = obj.has("description") && obj.get("description") != JsonNull.INSTANCE ? obj.get("description").getAsString() : null;
+            int uses = obj.has("uses") && obj.get("uses") != JsonNull.INSTANCE ? obj.get("uses").getAsInt() : 64;
 
             CustomRod rod = new CustomRod(id, displayName);
             rod.setLuckMultiplier(baseLuck);
             rod.setDifficulty(difficulty);
             rod.setItemModel(NamespacedKey.fromString("seaborn_rods:" + id));
+            rod.setDescription(description);
+            rod.setUses(uses);
 
             rodMap.put(id, rod);
         }

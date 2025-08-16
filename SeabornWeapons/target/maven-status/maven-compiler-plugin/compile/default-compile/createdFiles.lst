@@ -1,0 +1,8 @@
+com\seabornmc\seabornWeapons\APILoader.class
+com\seabornmc\seabornWeapons\weapons\Sword.class
+com\seabornmc\seabornWeapons\Listeners.class
+com\seabornmc\seabornWeapons\commands\WeaponCommand.class
+com\seabornmc\seabornWeapons\weapons\items\SwordItem.class
+com\seabornmc\seabornWeapons\Utils.class
+com\seabornmc\seabornWeapons\SeabornWeapons.class
+com\seabornmc\seabornWeapons\WeaponManager.class
