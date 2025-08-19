@@ -1,0 +1,6 @@
+database:
+  host: "localhost"
+  port: 3306
+  name: "seaborn"
+  user: "root"
+  password: "password"

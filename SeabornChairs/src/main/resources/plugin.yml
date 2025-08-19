@@ -1,0 +1,5 @@
+name: SeabornChairs
+version: '1.0-SNAPSHOT'
+main: com.seabornmc.seabornChairs.SeabornChairs
+api-version: '1.21'
+depend: [CommandAPI]

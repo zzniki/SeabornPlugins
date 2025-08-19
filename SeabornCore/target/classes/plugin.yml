@@ -4,3 +4,4 @@ main: com.seaborn.seabornCore.SeabornCore
 api-version: '1.21'
 load: STARTUP
 authors: [ Niki ]
+depend: [NotQuests, Vault]

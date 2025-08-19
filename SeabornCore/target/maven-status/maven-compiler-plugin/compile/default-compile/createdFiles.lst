@@ -1,3 +1,14 @@
+com\seaborn\seabornCore\db\DatabaseManager.class
 com\seaborn\seabornCore\SeabornCore.class
-com\seaborn\seabornCore\Bossbars.class
+com\seaborn\seabornCore\db\dao\PlayerDataDAO.class
+com\seaborn\seabornCore\events\PlayerDataLoadEvent.class
+com\seaborn\seabornCore\events\PlayerFirstJoinEvent.class
+com\seaborn\seabornCore\db\DatabaseInitializer.class
+com\seaborn\seabornCore\scoreboard\ScoreboardManager.class
+com\seaborn\seabornCore\serialization\ConfigurationSerializableAdapter.class
+com\seaborn\seabornCore\serialization\SerializeInventory.class
 com\seaborn\seabornCore\Listeners.class
+com\seaborn\seabornCore\serialization\ConfigurationSerializableAdapter$1.class
+com\seaborn\seabornCore\serialization\SerializeCommon.class
+com\seaborn\seabornCore\db\model\PlayerData.class
+com\seaborn\seabornCore\Bossbars.class

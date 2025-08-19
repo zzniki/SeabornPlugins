@@ -19,14 +19,11 @@ public class Listeners implements Listener {
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
 
         if (item == null || item.getType() != Material.COMPASS) {
-            SeabornCompass.getTrackerManager().removeTrackers(player);
+            SeabornCompass.getTrackerManager().hideMarkers(player);
             return;
         }
 
-        SeabornCompass.getTrackerManager().addTracker(
-                player,
-                new Location(Bukkit.getWorld("world"), 231.5, 69.5, 145.447, -299.62f, 16.32f)
-        );
+        SeabornCompass.getTrackerManager().showMarkers(player);
 
     }
 

@@ -4,6 +4,8 @@ import com.maximde.hologramlib.HologramLib;
 import com.maximde.hologramlib.hologram.HologramManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import rocks.gravili.notquests.paper.NotQuests;
+import rocks.gravili.notquests.paper.structs.objectives.ReachLocationObjective;
 
 public final class SeabornCompass extends JavaPlugin {
 
@@ -34,6 +36,9 @@ public final class SeabornCompass extends JavaPlugin {
         this.updateTask = getServer().getScheduler().runTaskTimer(this, () -> {
             markerManager.updateTrackers();
         }, 0, 5);
+
+
+
     }
 
     @Override

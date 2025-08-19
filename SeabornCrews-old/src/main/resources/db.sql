@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS crews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(64) UNIQUE NOT NULL,
+  owner_uuid VARCHAR(36) NOT NULL,
+  reputation INT NOT NULL DEFAULT 0,
+  island_world VARCHAR(128) DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS crew_members (
+  crew_id INT NOT NULL,
+  member_uuid VARCHAR(36) NOT NULL,
+  PRIMARY KEY (crew_id, member_uuid),
+  FOREIGN KEY (crew_id) REFERENCES crews(id) ON DELETE CASCADE
+);

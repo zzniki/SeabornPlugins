@@ -1,0 +1,5 @@
+com\seabornmc\seabornChairs\ChairManager.class
+com\seabornmc\seabornChairs\Listeners.class
+com\seabornmc\seabornChairs\Chair.class
+com\seabornmc\seabornChairs\SeabornChairs.class
+com\seabornmc\seabornChairs\commands\ChairCommand.class

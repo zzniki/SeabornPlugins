@@ -73,5 +73,11 @@
             <artifactId>HologramLib</artifactId>
             <version>1.8.0</version>
         </dependency>
+        <dependency>
+            <groupId>rocks.gravili.notquests</groupId>
+            <artifactId>paper</artifactId>
+            <version>5.19.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

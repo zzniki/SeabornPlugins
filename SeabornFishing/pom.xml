@@ -167,5 +167,13 @@
             <version>3.3.2</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- NotQuests -->
+        <dependency>
+            <groupId>rocks.gravili.notquests</groupId>
+            <artifactId>paper</artifactId>
+            <version>5.19.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
