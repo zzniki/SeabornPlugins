@@ -2,8 +2,12 @@ package com.seaborn.seabornFishing.minigames;
 
 import com.seaborn.seabornFishing.Minigame;
 import com.seaborn.seabornFishing.SeabornFishing;
+import com.seaborn.seabornFishing.Utils;
 import com.seaborn.seabornFishing.rewards.FishItemReward;
 import com.seaborn.seabornFishing.rewards.FishReward;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.HandlerList;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,8 +92,19 @@ public class GameSchedule implements Listener {
             Item item = (Item) event.getCaught();
             if (item == null) return;
 
-            if (this.reward instanceof FishItemReward) {
-                item.setItemStack(((FishItemReward) this.reward).getItem());
+            if (this.reward instanceof FishItemReward fishReward) {
+                item.setItemStack(fishReward.getItem());
+
+                player.showTitle(Title.title(
+                        Component.text(Utils.fishToChar(fishReward.getFish().getId())).font(Key.key("seaborn_images", "fish")),
+                        Utils.formatTextMM(fishReward.getFish().getRarity().getDisplayName() + " <reset>" + fishReward.getFish().getDisplayName()),
+                        Title.Times.times(
+                                Duration.ofMillis(500),
+                                Duration.ofSeconds(1),
+                                Duration.ofSeconds(1)
+                        )
+                ));
+
             } else {
                 this.reward.giveToPlayer(player);
             }

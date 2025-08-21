@@ -100,6 +100,9 @@ public class Listeners implements Listener {
             GameSchedule schedule = this.scheduler.createSchedule(player, reward);
             getServer().getPluginManager().registerEvents(schedule, this.plugin); // Register schedule listeners
 
+            event.getHook().setRainInfluenced(false);
+            event.getHook().setSkyInfluenced(false);
+
             // Set actual wait time
             int waitTime = (int) Math.round((schedule.getTotalTime()) * getServer().getTPS()[1]);
             event.getHook().setMinWaitTime(waitTime);
@@ -125,7 +128,6 @@ public class Listeners implements Listener {
             }, 5);
 
         } else if (state == PlayerFishEvent.State.CAUGHT_ENTITY) {
-            event.getPlayer().sendMessage("caught");
         }
     }
 

@@ -1,3 +1,8 @@
-com\seaborn\seabornCrews\db\CrewDAO.class
-com\seaborn\seabornCrews\CrewService.class
+com\seaborn\seabornCrews\service\CrewService.class
+com\seaborn\seabornCrews\Utils.class
+com\seaborn\seabornCrews\DatabaseInitializer.class
+com\seaborn\seabornCrews\dao\CrewDAO.class
+com\seaborn\seabornCrews\service\IslandService.class
+com\seaborn\seabornCrews\model\CrewMember.class
 com\seaborn\seabornCrews\model\Crew.class
+com\seaborn\seabornCrews\DatabaseManager.class

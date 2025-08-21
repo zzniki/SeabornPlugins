@@ -6,6 +6,8 @@ import com.seaborn.seabornFishing.SeabornFishing;
 import com.seaborn.seabornFishing.Utils;
 import de.tr7zw.nbtapi.NBT;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -35,7 +37,7 @@ public class FishItemReward extends FishReward {
         this.item.editMeta(meta -> {
             if (fish.getItemModel() != null) meta.setItemModel(fish.getItemModel());
             meta.lore(fish.getLore(weight, player));
-            meta.displayName(Component.text(ChatColor.AQUA + Utils.formatText(fish.getDisplayName())));
+            meta.displayName(Utils.formatTextMM("<reset><aqua>" + fish.getDisplayName()).decoration(TextDecoration.ITALIC, false));
         });
 
         NBT.modify(this.item, nbt -> {
@@ -80,4 +82,7 @@ public class FishItemReward extends FishReward {
         return this.weight * this.fish.getRarity().getWorthMultiplier() * this.fish.getWorthMultiplier();
     }
 
+    public Fish getFish() {
+        return fish;
+    }
 }

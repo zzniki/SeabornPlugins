@@ -3,6 +3,7 @@ package com.seaborn.seabornFishing;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -115,7 +116,7 @@ public class Fish {
         lore.add(Component.text(ChatColor.WHITE + "Caught by " + player.getName()));
         lore.add(Component.text(ChatColor.WHITE + "Weights " + String.valueOf(Math.round(weight * 100f) / 100f) + "kg"));
         lore.add(Component.text(""));
-        lore.add(Component.text(ChatColor.WHITE + Utils.formatText(this.getRarity().getDisplayName())));
+        lore.add((TextComponent) Utils.formatTextMM("<reset>" + this.getRarity().getDisplayName()).decoration(TextDecoration.ITALIC, false));
         return lore;
     }
 

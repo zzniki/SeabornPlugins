@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS crews (
 CREATE TABLE IF NOT EXISTS crew_members (
   crew_id INT NOT NULL,
   member_uuid VARCHAR(36) NOT NULL,
-  role ENUM('member', 'admin', 'owner'),
+  role ENUM('member', 'quartermaster', 'captain'),
   PRIMARY KEY (crew_id, member_uuid),
   FOREIGN KEY (crew_id) REFERENCES crews(id) ON DELETE CASCADE,
   FOREIGN KEY (member_uuid) REFERENCES players(uuid) ON DELETE CASCADE

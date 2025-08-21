@@ -141,4 +141,36 @@ public class CrewDAO {
         }
         return null;
     }
+
+    public void saveCrew(Crew crew) throws SQLException {
+        String sql = "UPDATE crews SET name = ?, owner_uuid = ?, reputation = ?, description = ?, " +
+                "tag = ?, island_world = ?, battle_wins = ?, is_public = ?, max_members = ? " +
+                "WHERE id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, crew.getName());
+            stmt.setString(2, crew.getOwnerUuid());
+            stmt.setInt(3, crew.getReputation());
+            stmt.setString(4, crew.getDescription());
+            stmt.setString(5, crew.getTag());
+            stmt.setString(6, crew.getIslandWorld());
+            stmt.setInt(7, crew.getBattleWins());
+            stmt.setBoolean(8, crew.isPublic());
+            stmt.setInt(9, crew.getMaxMembers());
+            stmt.setInt(10, crew.getId());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void deleteCrew(int crewId) throws SQLException {
+        String sql = "DELETE FROM crews WHERE id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, crewId);
+            stmt.executeUpdate();
+        }
+    }
 }

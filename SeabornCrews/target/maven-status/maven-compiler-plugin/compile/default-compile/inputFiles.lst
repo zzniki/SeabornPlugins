@@ -1,6 +1,10 @@
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\commands\CrewCommand.java
-C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\CrewService.java
-C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\db\CrewDAO.java
-C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\listeners\CrewChatListener.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\dao\CrewDAO.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\DatabaseInitializer.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\DatabaseManager.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\model\Crew.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\model\CrewMember.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\SeabornCrews.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\service\CrewService.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\service\IslandService.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCrews\src\main\java\com\seaborn\seabornCrews\Utils.java

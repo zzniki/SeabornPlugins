@@ -1,7 +1,6 @@
-db:
-  host: localhost
+database:
+  host: "localhost"
   port: 3306
-  database: seaborncrews
-  user: root
-  password: yourpassword
-  poolSize: 10
+  name: "seaborn"
+  user: "root"
+  password: "password"

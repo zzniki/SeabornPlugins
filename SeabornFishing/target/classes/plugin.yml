@@ -4,4 +4,4 @@ main: com.seaborn.seabornFishing.SeabornFishing
 api-version: '1.21'
 load: POSTWORLD
 authors: [ Niki ]
-depend: [Citizens, WorldGuard, NBTAPI, CommandAPI, SeabornDialogs, Vault, PlayerPoints]
+depend: [Citizens, WorldGuard, NBTAPI, CommandAPI, SeabornDialogs, Vault, PlayerPoints, NotQuests]

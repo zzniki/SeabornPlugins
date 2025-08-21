@@ -20,7 +20,7 @@ public class CrewService {
     public Crew createCrew(Crew crew) throws SQLException {
         crewDAO.createCrew(crew);
         // Add owner as member with role 'owner'
-        crewDAO.addMember(new CrewMember(crew.getId(), crew.getOwnerUuid(), "owner"));
+        crewDAO.addMember(new CrewMember(crew.getId(), crew.getOwnerUuid(), "captain"));
         return crew;
     }
 
@@ -45,7 +45,7 @@ public class CrewService {
         CrewMember owner = new CrewMember();
         owner.setCrewId(crew.getId());
         owner.setMemberUuid(crew.getOwnerUuid());
-        owner.setRole("owner");
+        owner.setRole("captain");
         return owner;
     }
 
@@ -62,5 +62,13 @@ public class CrewService {
         Integer crewId = crewDAO.getCrewIdByMember(playerUuid);
         if (crewId == null) return null;
         return getCrew(crewId);
+    }
+
+    public void saveCrew(Crew crew) throws SQLException {
+        crewDAO.saveCrew(crew);
+    }
+
+    public void deleteCrew(int crewId) throws SQLException {
+        crewDAO.deleteCrew(crewId);
     }
 }

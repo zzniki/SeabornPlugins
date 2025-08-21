@@ -88,8 +88,6 @@ public class NumbersGame extends Minigame {
 
     public void sendKeyTitle(String key, boolean pressed) {
 
-        // TODO: Map key to texture in font
-
         String finalKey = pressed ? pressedKeyMap.get(key) : keyMap.get(key);
 
         this.getTargetPlayer().showTitle(
