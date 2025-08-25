@@ -173,4 +173,52 @@ public class CrewDAO {
             stmt.executeUpdate();
         }
     }
+
+    // List all crew members
+    public CrewMember getCrewMember(int crewId, UUID memberUuid) throws SQLException {
+        List<CrewMember> members = new ArrayList<>();
+        String sql = "SELECT * FROM crew_members WHERE crew_id = ? AND member_uuid = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, crewId);
+            stmt.setString(2, memberUuid.toString());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    return new CrewMember(
+                            rs.getInt("crew_id"),
+                            rs.getString("member_uuid"),
+                            rs.getString("role")
+                    );
+                }
+            }
+        }
+        return null;
+    }
+
+    public Crew getCrewByName(String name) throws SQLException {
+        String sql = "SELECT * FROM crews WHERE name = ?";
+        try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapCrew(rs);
+            }
+        }
+        return null;
+    }
+
+    public Crew getCrewByTag(String tag) throws SQLException {
+        String sql = "SELECT * FROM crews WHERE tag = ?";
+        try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, tag);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapCrew(rs);
+            }
+        }
+        return null;
+    }
+
 }

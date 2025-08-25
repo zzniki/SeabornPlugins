@@ -16,7 +16,7 @@ public class DatabaseManager {
         config.setPassword(password);
 
         // Pool settings
-        config.setMaximumPoolSize(10);
+        config.setMaximumPoolSize(5);
         config.setMinimumIdle(2);
         config.setIdleTimeout(30000);
         config.setConnectionTimeout(10000);

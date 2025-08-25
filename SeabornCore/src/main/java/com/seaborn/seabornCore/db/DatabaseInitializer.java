@@ -1,10 +1,11 @@
 package com.seaborn.seabornCore.db;
 
+import com.seaborn.seabornCore.SeabornCore;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.stream.Collectors;
 
 public class DatabaseInitializer {
@@ -30,9 +31,31 @@ public class DatabaseInitializer {
                 }
             }
 
+            // Step 2: Run incremental migrations
+            ensureColumnExists(conn, "players", "last_world_name", "VARCHAR(128) DEFAULT NULL");
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to run database migrations!", e);
+        }
+
+    }
+
+    private static void ensureColumnExists(Connection conn, String table, String column, String definition) throws SQLException {
+        String checkSql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS " +
+                "WHERE TABLE_NAME = ? AND COLUMN_NAME = ? AND TABLE_SCHEMA = DATABASE()";
+        try (PreparedStatement ps = conn.prepareStatement(checkSql)) {
+            ps.setString(1, table);
+            ps.setString(2, column);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next() && rs.getInt(1) == 0) {
+                    String alterSql = "ALTER TABLE " + table + " ADD COLUMN " + column + " " + definition;
+                    try (Statement alter = conn.createStatement()) {
+                        alter.executeUpdate(alterSql);
+                        SeabornCore.getInstance().getLogger().info("[DB] Added column " + column + " to " + table);
+                    }
+                }
+            }
         }
     }
 }

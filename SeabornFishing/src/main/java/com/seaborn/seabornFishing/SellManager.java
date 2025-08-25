@@ -63,7 +63,7 @@ public class SellManager {
             FishItemReward fishItem = new FishItemReward(item);
             float worth = fishItem.getWorth();
 
-            player.getInventory().removeItem(item);
+            player.getInventory().removeItemAnySlot(item);
 
             totalWorth += worth;
 

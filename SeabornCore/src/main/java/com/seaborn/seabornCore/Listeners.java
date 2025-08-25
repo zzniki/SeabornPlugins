@@ -3,6 +3,7 @@ package com.seaborn.seabornCore;
 import com.seaborn.seabornCore.db.model.PlayerData;
 import com.seaborn.seabornCore.events.PlayerDataLoadEvent;
 import com.seaborn.seabornCore.events.PlayerFirstJoinEvent;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
@@ -16,6 +17,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
 public class Listeners implements Listener {
 
@@ -31,31 +33,37 @@ public class Listeners implements Listener {
         Player player = event.getPlayer();
 
         // Load player data
-        PlayerData data = SeabornCore.getPlayerDataDAO().load(player.getUniqueId(), player.getInventory());
-        boolean isFirstJoin = data == null;
+        CompletableFuture.supplyAsync(() -> SeabornCore.getPlayerDataDAO().load(player.getUniqueId(), player.getInventory()))
+                .thenAccept(tempData -> {
+                    final PlayerData tempData2 = tempData.clone();
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        PlayerData data = tempData2;
+                        boolean isFirstJoin = data == null;
 
-        if (isFirstJoin) {
-            data = new PlayerData(event.getPlayer());
-            SeabornCore.getPlayerDataDAO().save(data);
+                        if (isFirstJoin) {
+                            data = new PlayerData(event.getPlayer());
+                            SeabornCore.getPlayerDataDAO().save(data);
 
-            Bukkit.getPluginManager().callEvent(new PlayerFirstJoinEvent(player, event));
-        }
+                            Bukkit.getPluginManager().callEvent(new PlayerFirstJoinEvent(player, event));
+                        }
 
-        Bukkit.getPluginManager().callEvent(new PlayerDataLoadEvent(data));
+                        Bukkit.getPluginManager().callEvent(new PlayerDataLoadEvent(data));
 
-        double targetBalance = data.getMoney();
-        double currentPlayersBalance = SeabornCore.getEconomy().getBalance(player);
-        double difference = targetBalance - currentPlayersBalance;
+                        double targetBalance = data.getMoney();
+                        double currentPlayersBalance = SeabornCore.getEconomy().getBalance(player);
+                        double difference = targetBalance - currentPlayersBalance;
 
-        if (difference > 0){
-            SeabornCore.getEconomy().depositPlayer(player, difference);
-        } else {
-            SeabornCore.getEconomy().withdrawPlayer(player, -difference);
-        }
+                        if (difference > 0){
+                            SeabornCore.getEconomy().depositPlayer(player, difference);
+                        } else {
+                            SeabornCore.getEconomy().withdrawPlayer(player, -difference);
+                        }
 
-        if (!isFirstJoin) player.teleport(data.getLastLocation());
+                        if (!isFirstJoin && data.getLastLocation() != null) player.teleport(data.getLastLocation());
 
-        // TODO: Load rep
+                        // TODO: Load rep
+                    });
+                });
 
         // Show initial title
         TextComponent imageText = Component.text("\ua000")
@@ -84,7 +92,10 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
         PlayerData data = new PlayerData(event.getPlayer());
-        SeabornCore.getPlayerDataDAO().save(data);
+
+        CompletableFuture.runAsync(() -> {
+            SeabornCore.getPlayerDataDAO().save(data);
+        });
     }
 
 }

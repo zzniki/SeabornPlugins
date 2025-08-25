@@ -7,6 +7,10 @@ import com.infernalsuite.asp.loaders.mysql.MysqlLoader;
 import com.seaborn.seabornCrews.commands.CrewAdminCommand;
 import com.seaborn.seabornCrews.commands.CrewCommand;
 import com.seaborn.seabornCrews.dao.CrewDAO;
+import com.seaborn.seabornCrews.listeners.ChatListener;
+import com.seaborn.seabornCrews.listeners.IslandListener;
+import com.seaborn.seabornCrews.listeners.PortalListener;
+import com.seaborn.seabornCrews.placeholders.CrewExpansion;
 import com.seaborn.seabornCrews.service.CrewService;
 import com.seaborn.seabornCrews.service.IslandService;
 import dev.jorel.commandapi.CommandAPI;
@@ -21,10 +25,13 @@ public class SeabornCrews extends JavaPlugin {
 
     private static CrewService crewService;
     private static IslandService islandService;
+    private static CrewManager crewManager;
 
     private static CrewDAO crewDAO;
     private static AdvancedSlimePaperAPI aspApi;
     private static SlimeLoader loader;
+
+    private static DatabaseManager dbManager;
 
     @Override
     public void onEnable() {
@@ -39,7 +46,7 @@ public class SeabornCrews extends JavaPlugin {
         String user = getConfig().getString("database.user");
         String pass = getConfig().getString("database.password");
 
-        DatabaseManager dbManager = new DatabaseManager(
+        dbManager = new DatabaseManager(
                 host, port, dbName, user, pass
         );
 
@@ -47,6 +54,7 @@ public class SeabornCrews extends JavaPlugin {
 
         crewDAO = new CrewDAO(dbManager.getDataSource());
         crewService = new CrewService(crewDAO);
+        crewManager = new CrewManager();
 
         try {
             aspApi = AdvancedSlimePaperAPI.instance();
@@ -66,7 +74,13 @@ public class SeabornCrews extends JavaPlugin {
 
         islandService = new IslandService(aspApi, loader);
 
+        getServer().getPluginManager().registerEvents(new IslandListener(), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
+        getServer().getPluginManager().registerEvents(new PortalListener(), this);
+
         this.setupCommands();
+
+        new CrewExpansion().register();
 
     }
 
@@ -75,12 +89,14 @@ public class SeabornCrews extends JavaPlugin {
 
         this.saveIslands();
 
+        dbManager.close();
+
         CommandAPI.unregister("crew");
         CommandAPI.unregister("crewadmin");
 
     }
 
-    private void saveIslands() {
+    public void saveIslands() {
         getLogger().info("Saving all islands...");
         for (SlimeWorldInstance instance : aspApi.getLoadedWorlds()) {
             try {
@@ -89,6 +105,7 @@ public class SeabornCrews extends JavaPlugin {
                 throw new RuntimeException(e);
             }
         }
+        getLogger().info("Saved all islands...");
     }
 
     private void setupCommands() {
@@ -96,9 +113,14 @@ public class SeabornCrews extends JavaPlugin {
         new CrewAdminCommand().getCommand().register(this);
     }
 
+    private void registerAutoSaving() {
+
+    }
+
     public static SeabornCrews getInstance() { return instance; }
 
     public static CrewService getCrewService() { return crewService; }
     public static IslandService getIslandService() { return islandService; }
+    public static CrewManager getCrewManager() { return crewManager; }
 
 }

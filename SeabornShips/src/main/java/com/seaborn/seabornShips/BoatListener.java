@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import de.tr7zw.nbtapi.NBT;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.entity.boat.OakBoat;
@@ -126,7 +127,8 @@ public class BoatListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
-        if (event.getEntity().getCustomName().equals("___BoatDisplay")) event.setCancelled(true);
+        if (event.getEntity().customName() == null) return;
+        if (((TextComponent) event.getEntity().customName()).content().equals("___BoatDisplay")) event.setCancelled(true);
     }
 
     @EventHandler

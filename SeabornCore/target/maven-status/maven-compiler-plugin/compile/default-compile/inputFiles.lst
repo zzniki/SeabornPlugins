@@ -1,8 +1,10 @@
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\Bossbars.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\ChatListener.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\db\dao\PlayerDataDAO.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\db\DatabaseInitializer.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\db\DatabaseManager.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\db\model\PlayerData.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\events\PeriodicSaveEvent.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\events\PlayerDataLoadEvent.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\events\PlayerFirstJoinEvent.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\Listeners.java
@@ -11,3 +13,4 @@ C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seab
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\serialization\ConfigurationSerializableAdapter.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\serialization\SerializeCommon.java
 C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\serialization\SerializeInventory.java
+C:\Users\Niki\Documents\GitHub\SeabornPlugins\SeabornCore\src\main\java\com\seaborn\seabornCore\Utils.java

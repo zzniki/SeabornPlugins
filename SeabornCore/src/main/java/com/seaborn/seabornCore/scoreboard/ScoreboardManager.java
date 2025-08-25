@@ -1,6 +1,7 @@
 package com.seaborn.seabornCore.scoreboard;
 
 import com.seaborn.seabornCore.SeabornCore;
+import com.seaborn.seabornCore.Utils;
 import fr.mrmicky.fastboard.adventure.FastBoard;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -57,7 +58,7 @@ public class ScoreboardManager implements Listener {
         lines.add(miniMessage.deserialize("<dark_gray>Private Alpha"));
         lines.add(Component.text(""));
         lines.add(miniMessage.deserialize("<b>PROFILE"));
-        lines.add(miniMessage.deserialize("<aqua>Crew: <#549CD5>None"));
+        lines.add(Utils.formatWithPlaceholder(player, "<aqua>Crew: <#549CD5>%crew_name%"));
         lines.add(miniMessage.deserialize("<aqua>Catches: <#549CD5>0"));
         lines.add(miniMessage.deserialize("<aqua>Catch Rate: <#549CD5>1"));
 

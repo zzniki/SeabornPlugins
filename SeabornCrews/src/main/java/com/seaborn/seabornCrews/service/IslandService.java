@@ -9,6 +9,7 @@ import com.infernalsuite.asp.api.world.properties.SlimeProperties;
 import com.infernalsuite.asp.api.world.properties.SlimePropertyMap;
 import com.seaborn.seabornCrews.SeabornCrews;
 import com.seaborn.seabornCrews.Utils;
+import jdk.jshell.SourceCodeAnalysis;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -108,28 +109,25 @@ public class IslandService {
         }));
     }
 
-    public void teleportToIsland(Player player, String worldId) {
+    public CompletableFuture<Void> teleportToIsland(Player player, String worldId) {
         SlimeWorldInstance worldInstance = api.getLoadedWorld(worldId);
 
         player.sendMessage(Utils.formatText("<green>Teleporting..."));
 
         if (worldInstance != null) {
             player.teleport(worldInstance.getBukkitWorld().getSpawnLocation());
-            return;
+            return CompletableFuture.completedFuture(null);
         }
 
-        this.loadWorld(worldId).thenAccept(slimeWorldInstance -> {
-
+        return this.loadWorld(worldId).thenAccept(slimeWorldInstance -> {
             if (slimeWorldInstance == null) {
                 player.sendMessage(Utils.formatText("<red>Could not load island. Please report this error to our staff team."));
                 return;
             }
 
-            Bukkit.getScheduler().runTask(SeabornCrews.getInstance(), () -> {
-                player.teleport(slimeWorldInstance.getBukkitWorld().getSpawnLocation());
-            });
+            Bukkit.getScheduler().runTask(SeabornCrews.getInstance(),
+                    () -> player.teleport(slimeWorldInstance.getBukkitWorld().getSpawnLocation()));
         });
-
     }
 
     public void unloadIsland(String worldId) {
@@ -161,8 +159,10 @@ public class IslandService {
         World bukkitWorld = world.getBukkitWorld();
         if (bukkitWorld.getPlayerCount() == 0) {
             try {
+                SeabornCrews.getInstance().getLogger().info("Unloading world " + worldId);
                 api.saveWorld(world);
                 Bukkit.unloadWorld(bukkitWorld, true);
+                SeabornCrews.getInstance().getLogger().info("Unloaded world " + worldId);
             } catch (Exception e) {
                 SeabornCrews.getInstance().getLogger().severe("Failed to save/unload crew island: " + e.getMessage());
             }

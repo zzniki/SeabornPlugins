@@ -3,6 +3,8 @@ package com.seaborn.seabornCrews.model;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import java.util.UUID;
+
 public class CrewMember {
     private int crewId;
     private String memberUuid;
@@ -17,7 +19,7 @@ public class CrewMember {
     }
 
     public OfflinePlayer asOfflinePlayer() {
-        return Bukkit.getOfflinePlayer(this.memberUuid);
+        return Bukkit.getOfflinePlayer(UUID.fromString(this.memberUuid));
     }
 
     public int getCrewId() {
