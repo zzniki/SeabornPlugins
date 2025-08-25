@@ -2,6 +2,6 @@ name: SeabornCrews
 version: '1.0-SNAPSHOT'
 main: com.seaborn.seabornCrews.SeabornCrews
 api-version: '1.21'
-load: STARTUP
+load: POSTWORLD
 authors: [ Niki ]
 depend: [SeabornCore, ASPaperPlugin, CommandAPI, PlaceholderAPI, WorldGuard]
