@@ -18,6 +18,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SeabornCrews extends JavaPlugin {
 
@@ -106,6 +108,16 @@ public class SeabornCrews extends JavaPlugin {
             }
         }
         getLogger().info("Saved all islands...");
+    }
+
+    public void unloadEmptyIslands() {
+        List<SlimeWorldInstance> toUnload = new ArrayList<>();
+
+        for (SlimeWorldInstance instance : aspApi.getLoadedWorlds()) {
+            if (instance.getBukkitWorld().getPlayerCount() <= 0) {
+                getIslandService().unloadIslandIfEmpty(instance.getName());
+            }
+        }
     }
 
     private void setupCommands() {

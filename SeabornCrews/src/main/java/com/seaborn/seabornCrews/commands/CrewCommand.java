@@ -30,7 +30,7 @@ public class CrewCommand {
         this.command = new CommandAPICommand("crew")
                 .withSubcommands(
                         //getJoin(),
-                        //getLeave(),
+                        getLeave(),
                         getHome(),
                         //getKick(),
                         getDisband(),
@@ -219,7 +219,35 @@ public class CrewCommand {
 
     //public CommandAPICommand getJoin() {}
     //public CommandAPICommand getKick() {}
-    //public CommandAPICommand getLeave() {}
+    public CommandAPICommand getLeave() {
+
+        return new CommandAPICommand("leave")
+                .executes((sender, args) -> {
+                    Player player = (Player) sender;
+
+                    try {
+                        Crew crew = SeabornCrews.getCrewService().getPlayerCrew(player.getUniqueId());
+
+                        if (crew == null) {
+                            player.sendMessage(Utils.formatText("<red>You are not in a crew!"));
+                            return;
+                        }
+
+                        if (crew.getOwnerUuid().equals(player.getUniqueId().toString())) {
+                            player.sendMessage(Utils.formatText("<red>You are the owner of the crew, you can disband it using /crew disband"));
+                            return;
+                        }
+
+                        SeabornCrews.getCrewService().removeMember(crew.getId(), player.getUniqueId().toString());
+                        player.sendMessage(Utils.formatText("<green>You left " + crew.getName()));
+
+
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                });
+    }
 
     public CommandAPICommand getCommand() { return command; }
 

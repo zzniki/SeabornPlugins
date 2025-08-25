@@ -8,10 +8,15 @@ import com.seaborn.seabornCrews.SeabornCrews;
 import com.seaborn.seabornCrews.service.IslandService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IslandListener implements Listener {
 
@@ -57,5 +62,19 @@ public class IslandListener implements Listener {
     @EventHandler
     public void onPeriodicSave(PeriodicSaveEvent event) {
         SeabornCrews.getInstance().saveIslands();
+        SeabornCrews.getInstance().unloadEmptyIslands();
+    }
+
+    // Unload island automatically
+    @EventHandler
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        org.bukkit.World fromWorld = event.getFrom().getWorld();
+
+        Bukkit.getScheduler().runTaskLater(SeabornCrews.getInstance(), () -> {
+            if (fromWorld.getName().startsWith(IslandService.PREFIX)) {
+                SeabornCrews.getIslandService().unloadIslandIfEmpty(fromWorld.getName());
+            }
+        }, 1L);
+
     }
 }

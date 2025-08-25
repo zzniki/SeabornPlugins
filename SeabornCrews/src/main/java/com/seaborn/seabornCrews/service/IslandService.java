@@ -140,8 +140,13 @@ public class IslandService {
 
         World bukkitWorld = world.getBukkitWorld();
         try {
+
+            SeabornCrews.getInstance().getLogger().info("Unloading world " + worldId);
+
             api.saveWorld(world);
             Bukkit.unloadWorld(bukkitWorld, true);
+
+            SeabornCrews.getInstance().getLogger().info("Unloaded world " + worldId);
         } catch (Exception e) {
             SeabornCrews.getInstance().getLogger().severe("Failed to save/unload crew island: " + e.getMessage());
         }
