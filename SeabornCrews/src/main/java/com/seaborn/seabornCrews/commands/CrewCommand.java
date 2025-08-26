@@ -1,5 +1,6 @@
 package com.seaborn.seabornCrews.commands;
 
+import com.seaborn.seabornCore.SeabornCore;
 import com.seaborn.seabornCrews.SeabornCrews;
 import com.seaborn.seabornCrews.Utils;
 import com.seaborn.seabornCrews.menus.CrewMasterMenu;
@@ -38,22 +39,20 @@ public class CrewCommand {
                         getInvite(),
                         getAcceptInvite(),
                         getRejectInvite(),
-                        getMenu()
+                        getMenu(),
+                        getTest()
                 )
-                .executes((sender, args) -> {});
-    }
-
-    public CommandAPICommand getCreate() {
-        return new CommandAPICommand("create")
-                .withArguments(new StringArgument("tag"), new GreedyStringArgument("name"))
                 .executes((sender, args) -> {
 
-                    if (!(sender instanceof Player)) return;
-
-
+                    sender.sendMessage(Utils.formatText("<b><aqua>CREW COMMAND"));
+                    sender.sendMessage(Utils.formatText("/crew invite <player> <dark_aqua>- Invites a player to your crew."));
+                    sender.sendMessage(Utils.formatText("/crew leave <dark_aqua>- Leaves your current crew."));
+                    sender.sendMessage(Utils.formatText("/crew home <dark_aqua>- Travels to your crew's island. (Requires rank)"));
+                    sender.sendMessage(Utils.formatText("/crew disband <dark_aqua>- Disbands your crew."));
 
                 });
     }
+
     public CommandAPICommand getDisband() {
 
         return new CommandAPICommand("disband")
@@ -246,6 +245,17 @@ public class CrewCommand {
                         throw new RuntimeException(e);
                     }
 
+                });
+    }
+
+    public CommandAPICommand getTest() {
+        return new CommandAPICommand("test")
+                .executes((sender, args) -> {
+                    SeabornCore.getDialogueManager().showDialogue((Player) sender, "This is a test dialog", (none) -> {
+                        ((Player) sender).sendMessage("ended dialog");
+
+                        return null;
+                    });
                 });
     }
 

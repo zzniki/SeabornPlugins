@@ -177,6 +177,9 @@ public class CrewMasterMenu {
                 } else if (crewName.startsWith(" ")) {
                     this.isNameAvailable = false;
                     this.reason = "Cannot start with a space";
+                } else if (crewName.length() > 16) {
+                    this.isNameAvailable = false;
+                    this.reason = "Cannot be longer than 16 characters";
                 } else if (SeabornCrews.getCrewService().isCrewNameTaken(crewName)) {
                     this.isNameAvailable = false;
                     this.reason = "Already taken";

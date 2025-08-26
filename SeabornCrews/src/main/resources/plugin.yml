@@ -4,4 +4,4 @@ main: com.seaborn.seabornCrews.SeabornCrews
 api-version: '1.21'
 load: POSTWORLD
 authors: [ Niki ]
-depend: [SeabornCore, ASPaperPlugin, CommandAPI, PlaceholderAPI, WorldGuard]
+depend: [SeabornCore, ASPaperPlugin, CommandAPI, PlaceholderAPI, WorldGuard, Citizens]

@@ -1,5 +1,7 @@
 package com.seaborn.seabornCore;
 
+import com.seaborn.seabornCore.actionbar.ActionbarManager;
+import com.seaborn.seabornCore.actionbar.DialogueManager;
 import com.seaborn.seabornCore.db.DatabaseInitializer;
 import com.seaborn.seabornCore.db.DatabaseManager;
 import com.seaborn.seabornCore.db.dao.PlayerDataDAO;
@@ -26,6 +28,8 @@ public final class SeabornCore extends JavaPlugin {
     private static Economy econ;
     private static PlayerDataDAO playerDataDAO;
     private static DatabaseManager dbManager;
+    private static ActionbarManager actionbarManager;
+    private static DialogueManager dialogueManager;
 
     int sched;
 
@@ -77,6 +81,15 @@ public final class SeabornCore extends JavaPlugin {
 
         }, 5 * 60 * 20, 5 * 60 * 20); // 5 minutes
 
+
+
+        // Register action bar
+        actionbarManager = new ActionbarManager(this);
+        dialogueManager = new DialogueManager(actionbarManager);
+
+        getServer().getPluginManager().registerEvents(actionbarManager, this);
+        getServer().getPluginManager().registerEvents(dialogueManager, this);
+
     }
 
     @Override
@@ -121,4 +134,6 @@ public final class SeabornCore extends JavaPlugin {
     public static Economy getEconomy() { return econ; }
     public static PlayerDataDAO getPlayerDataDAO() { return playerDataDAO; }
     public static SeabornCore getInstance() { return instance; }
+    public static ActionbarManager getActionbarManager() { return actionbarManager; }
+    public static DialogueManager getDialogueManager() { return dialogueManager; }
 }

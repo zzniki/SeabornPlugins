@@ -1,6 +1,7 @@
 com\seaborn\seabornCrews\service\CrewService.class
 com\seaborn\seabornCrews\DatabaseInitializer.class
 com\seaborn\seabornCrews\listeners\IslandListener.class
+com\seaborn\seabornCrews\traits\CrewMasterTrait.class
 com\seaborn\seabornCrews\dao\CrewDAO.class
 com\seaborn\seabornCrews\listeners\ChatListener.class
 com\seaborn\seabornCrews\menus\CrewMasterMenu$CrewNameConfirmItem.class

@@ -13,7 +13,10 @@ import com.seaborn.seabornCrews.listeners.PortalListener;
 import com.seaborn.seabornCrews.placeholders.CrewExpansion;
 import com.seaborn.seabornCrews.service.CrewService;
 import com.seaborn.seabornCrews.service.IslandService;
+import com.seaborn.seabornCrews.traits.CrewMasterTrait;
 import dev.jorel.commandapi.CommandAPI;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.trait.TraitInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -82,7 +85,13 @@ public class SeabornCrews extends JavaPlugin {
 
         this.setupCommands();
 
+        // PlaceholderAPI
         new CrewExpansion().register();
+
+        // Citizens
+        CitizensAPI.getTraitFactory().registerTrait(
+                TraitInfo.create(CrewMasterTrait.class)
+        );
 
     }
 
@@ -95,6 +104,8 @@ public class SeabornCrews extends JavaPlugin {
 
         CommandAPI.unregister("crew");
         CommandAPI.unregister("crewadmin");
+
+        CitizensAPI.getTraitFactory().deregisterTrait(TraitInfo.create(CrewMasterTrait.class));
 
     }
 

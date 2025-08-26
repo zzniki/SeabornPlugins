@@ -8,10 +8,14 @@ com\seaborn\seabornCore\scoreboard\ScoreboardManager.class
 com\seaborn\seabornCore\ChatListener.class
 com\seaborn\seabornCore\events\PeriodicSaveEvent.class
 com\seaborn\seabornCore\serialization\ConfigurationSerializableAdapter.class
+com\seaborn\seabornCore\actionbar\DialogueManager$Dialogue.class
+com\seaborn\seabornCore\actionbar\DialogueManager.class
 com\seaborn\seabornCore\serialization\SerializeInventory.class
 com\seaborn\seabornCore\Listeners.class
 com\seaborn\seabornCore\Utils.class
 com\seaborn\seabornCore\serialization\ConfigurationSerializableAdapter$1.class
 com\seaborn\seabornCore\serialization\SerializeCommon.class
 com\seaborn\seabornCore\db\model\PlayerData.class
+com\seaborn\seabornCore\actionbar\ActionBar.class
 com\seaborn\seabornCore\Bossbars.class
+com\seaborn\seabornCore\actionbar\ActionbarManager.class
