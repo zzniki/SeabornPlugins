@@ -19,6 +19,7 @@ com\seaborn\seabornFishing\commands\BestiaryCommand.class
 com\seaborn\seabornFishing\rewards\FishReward.class
 com\seaborn\seabornFishing\SeabornFishing.class
 com\seaborn\seabornFishing\CustomRodItem.class
+com\seaborn\seabornFishing\guis\RodUpgradeGUI.class
 com\seaborn\seabornFishing\traits\FishmongerTrait.class
 com\seaborn\seabornFishing\Minigame.class
 com\seaborn\seabornFishing\dialogs\FishmongerDialog.class

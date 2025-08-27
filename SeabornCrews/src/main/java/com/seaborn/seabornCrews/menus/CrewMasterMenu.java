@@ -50,7 +50,7 @@ public class CrewMasterMenu {
 
         ItemStack createItemStack = new ItemStack(Material.PAPER);
         createItemStack.editMeta((meta) -> {
-            meta.customName(Utils.formatText("<reset><aqua>Crete a crew").decoration(TextDecoration.ITALIC, false));
+            meta.customName(Utils.formatText("<reset><aqua>Create a crew").decoration(TextDecoration.ITALIC, false));
             meta.setItemModel(new NamespacedKey("seaborn_icons", "add"));
         });
 
@@ -59,7 +59,7 @@ public class CrewMasterMenu {
         Gui mainGui = Gui.normal()
                 .setStructure(
                         ". . . . . . . . .",
-                        ". . C . . . . . .",
+                        ". . . . C . . . .",
                         ". . . . . . . . .")
                 .addIngredient('C', new SimpleItem(createItemStack, (click) -> { this.setWindow(setCrewNameWindow); }))
                 .build();
@@ -90,6 +90,7 @@ public class CrewMasterMenu {
 
         this.mainGuiWindow = Window.single()
                 .setGui(mainGui)
+                .setTitle("Crew Menu")
                 .build(player);
 
 

@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class CrewManager {
 
@@ -157,11 +158,11 @@ public class CrewManager {
         }
     }
 
-    public void createCrew(Player player, String name, String tag) {
+    public CompletableFuture<Void> createCrew(Player player, String name, String tag) {
         try {
             if (SeabornCrews.getCrewService().isPlayerInAnyCrew(player.getUniqueId())) {
                 player.sendMessage(Utils.formatText("<red>You are already in a crew. You can leave your current crew with /crew leave"));
-                return;
+                return CompletableFuture.completedFuture(null);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -169,12 +170,12 @@ public class CrewManager {
 
         if (tag.length() > 8) {
             player.sendMessage(Utils.formatText("<red>The crew's tag cannot be longer than 8 characters. Example: BESTCREW"));
-            return;
+            return CompletableFuture.completedFuture(null);
         }
 
         if (name.length() > 64) {
             player.sendMessage(Utils.formatText("<red>The crew's name cannot be longer than 64 characters."));
-            return;
+            return CompletableFuture.completedFuture(null);
         }
 
         // Create crew
@@ -198,7 +199,7 @@ public class CrewManager {
 
         // Create world
         Crew finalCrew = crew;
-        SeabornCrews.getIslandService().createIsland(crew.getId()).thenAccept((worldId) -> {
+        return SeabornCrews.getIslandService().createIsland(crew.getId()).thenAccept((worldId) -> {
 
             if (worldId == null) {
                 player.sendMessage(Utils.formatText("<red>An error ocurred while creating the crew's island."));

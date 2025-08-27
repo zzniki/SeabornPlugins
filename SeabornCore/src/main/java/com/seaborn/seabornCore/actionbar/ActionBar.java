@@ -37,14 +37,14 @@ public class ActionBar {
         if (this.execDialog && this.dialogueIndex == this.dialogueTarget.length() - 1) {
             this.execDialog = false;
             this.finishingDialog = true;
-            this.player.sendActionBar(Component.text(dialogueTarget.substring(0, dialogueIndex + 1)).color(dialogueColor));
+            this.player.sendActionBar(Component.text(dialogueTarget.substring(0, dialogueIndex + 1)).color(dialogueColor).font(Key.key("seaborn_images", "icons")));
             this.onDialogueFinish.apply(null);
         }
 
         if (this.finishingDialog) {
-            this.player.sendActionBar(Component.text(dialogueTarget.substring(0, dialogueIndex + 1)).color(dialogueColor));
+            this.player.sendActionBar(Component.text(dialogueTarget.substring(0, dialogueIndex + 1)).color(dialogueColor).font(Key.key("seaborn_images", "icons")));
         } else if (this.execDialog) {
-            this.player.sendActionBar(Component.text(dialogueTarget.substring(0, dialogueIndex + 1)).color(dialogueColor));
+            this.player.sendActionBar(Component.text(dialogueTarget.substring(0, dialogueIndex + 1)).color(dialogueColor).font(Key.key("seaborn_images", "icons")));
             this.dialogueIndex++;
             this.dialogueTicks++;
             if (this.dialogueTicks % 2 == 0) this.player.playSound(Sound.sound().type(Key.key("minecraft", "block.note_block.pling")).source(Sound.Source.PLAYER).volume(.5f).pitch((float) Math.random() * 1.5f + .5f).build());
@@ -67,7 +67,12 @@ public class ActionBar {
     }
 
     public void sendDialogue(String dialogue, TextColor color, Function<Void, Void> onFinish) {
-        this.dialogueTarget = dialogue;
+
+        if (this.execDialog) {
+            this.onDialogueFinish.apply(null);
+        }
+
+        this.dialogueTarget = dialogue += " \ua005";
         this.locked = true;
         this.execDialog = true;
         this.dialogueTicks = 0;

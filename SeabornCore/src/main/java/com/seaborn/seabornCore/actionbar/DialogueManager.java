@@ -60,6 +60,10 @@ public class DialogueManager implements Listener {
     public void showDialogue(Player player, String text, TextColor color, Function<Void, Void> onComplete) {
         ActionBar actionBar = this.actionbarManager.getActionBar(player);
 
+        if (this.dialogues.containsKey(player.getUniqueId())) {
+            this.dialogues.get(player.getUniqueId()).finish();
+        }
+
         if (actionBar == null) {
             onComplete.apply(null);
             return;
@@ -81,12 +85,15 @@ public class DialogueManager implements Listener {
         if (event.getAction() != Action.LEFT_CLICK_AIR || event.getAction() != Action.LEFT_CLICK_BLOCK);
 
         Player player = event.getPlayer();
+
         if (this.dialogues.containsKey(player.getUniqueId())) {
             Dialogue dialogue = this.dialogues.get(player.getUniqueId());
 
+            event.setCancelled(true);
+
             if (dialogue.isCompleted()) {
-                dialogue.finish();
                 this.dialogues.remove(player.getUniqueId());
+                dialogue.finish();
             } else {
                 dialogue.skip();
             }

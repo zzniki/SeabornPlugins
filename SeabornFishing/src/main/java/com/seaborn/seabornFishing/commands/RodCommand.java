@@ -3,6 +3,7 @@ package com.seaborn.seabornFishing.commands;
 import com.seaborn.seabornFishing.CustomRod;
 import com.seaborn.seabornFishing.CustomRodItem;
 import com.seaborn.seabornFishing.SeabornFishing;
+import com.seaborn.seabornFishing.guis.RodUpgradeGUI;
 import de.tr7zw.nbtapi.NBT;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.*;
@@ -25,7 +26,8 @@ public class RodCommand {
                 .withSubcommands(
                         getGive(),
                         getList(),
-                        getModify()
+                        getModify(),
+                        getUpgrade()
                 )
                 .executes((sender, args) -> {
                     sender.sendMessage("list or give or modfloat");
@@ -94,6 +96,15 @@ public class RodCommand {
 
                     sender.sendMessage(ChatColor.GREEN + "Set float value " + key + " to " + value);
 
+                });
+    }
+
+    private CommandAPICommand getUpgrade() {
+        return new CommandAPICommand("upgrade")
+                .withPermission("seaborn.rod.upgrade")
+                .executes((sender, args) -> {
+                    Player player = (Player) sender;
+                    new RodUpgradeGUI(player).show();
                 });
     }
 

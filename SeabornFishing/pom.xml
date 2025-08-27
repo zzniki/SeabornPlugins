@@ -91,6 +91,11 @@
             <id>rosewood-repo</id>
             <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
+
+        <repository>
+            <id>xenondevs</id>
+            <url>https://repo.xenondevs.xyz/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -166,6 +171,13 @@
             <artifactId>playerpoints</artifactId>
             <version>3.3.2</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>xyz.xenondevs.invui</groupId>
+            <artifactId>invui</artifactId>
+            <version>1.46</version>
+            <type>pom</type>
         </dependency>
 
         <!-- NotQuests -->

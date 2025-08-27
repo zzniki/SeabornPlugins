@@ -251,11 +251,21 @@ public class CrewCommand {
     public CommandAPICommand getTest() {
         return new CommandAPICommand("test")
                 .executes((sender, args) -> {
-                    SeabornCore.getDialogueManager().showDialogue((Player) sender, "This is a test dialog", (none) -> {
-                        ((Player) sender).sendMessage("ended dialog");
-
-                        return null;
-                    });
+                    SeabornCore.getDialogueManager().showDialogue(
+                            ((Player) sender),
+                            "Let's get you started with crews!",
+                            (none) -> {
+                                SeabornCore.getDialogueManager().showDialogue(
+                                        ((Player) sender),
+                                        "All crews have a private island and can participate in crew battles.",
+                                        (none2) -> {
+                                            new CrewMasterMenu(((Player) sender)).show();
+                                            return null;
+                                        }
+                                );
+                                return null;
+                            }
+                    );
                 });
     }
 
