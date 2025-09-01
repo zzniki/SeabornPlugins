@@ -127,6 +127,19 @@ public class CrewService {
         return crewDAO.getCrewByTag(tag) != null;
     }
 
+    public void changeMemberRole(int crewId, String playerUuid, String newRole) throws SQLException {
+        // update DB
+        crewDAO.updateMemberRole(crewId, playerUuid, newRole);
+
+        // update cache if member is already cached
+        CrewMember member = crewCache.getCrewMember(crewId, playerUuid);
+        if (member != null) {
+            member.setRole(newRole);
+            crewCache.addCrewMember(crewId, member); // refresh cache entry
+        }
+    }
+
+
     public void clearCache() {
         crewCache.clear();
     }

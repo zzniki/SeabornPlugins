@@ -10,6 +10,8 @@ import java.util.function.ToDoubleFunction;
 
 public class WeightedRandom {
 
+    private static final float MAX_LUCK = 10f;
+
     public static <T> double getEffectiveWeight(
             T element,
             @NotNull ToDoubleFunction<T> weightFunction
@@ -28,11 +30,29 @@ public class WeightedRandom {
         Random rng = (random != null) ? random : ThreadLocalRandom.current();
 
         double[] effectiveWeights = new double[elements.size()];
+        double[] baseWeights = new double[elements.size()];
         double totalWeight = 0.0;
 
-        for (int i = 0; i < elements.size(); i++) {
-            T element = elements.get(i);
-            double base = getEffectiveWeight(element, weightFunction);
+        // Normalize luck in [1, 10] -> [0, 1]
+        double modLuck = (luck / (MAX_LUCK - 1f)) - (1.0 / (MAX_LUCK - 1f));
+
+        // Calculate average
+        double sum = 0;
+        double count = elements.size();
+
+        for (int i = 0; i < count; i++) {
+            double base = getEffectiveWeight(elements.get(i), weightFunction);
+            baseWeights[i] = base;
+            if (base > 0.0) {
+                sum += base;
+            }
+        }
+
+        double avg = sum / count;
+
+        // Modify weights according to luck
+        for (int i = 0; i < count; i++) {
+            double base = baseWeights[i];
 
             // Cap weights
             if (base <= 0.0) {
@@ -41,11 +61,13 @@ public class WeightedRandom {
             }
 
             // Apply luck
-            double withLuck = Math.pow(base, 1.0 - (luck - 1.0));
+            double withLuck = (1.0 - modLuck) * base + modLuck * avg;
+            // OLD FUNC: Math.pow(base, 1.0 - (luck - 1.0));
             effectiveWeights[i] = withLuck;
             totalWeight += withLuck;
         }
 
+        // Pick element
         double r = rng.nextDouble() * totalWeight;
         for (int i = 0; i < elements.size(); i++) {
             r -= effectiveWeights[i];

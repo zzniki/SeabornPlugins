@@ -11,11 +11,13 @@ import com.seaborn.seabornCrews.SeabornCrews;
 import com.seaborn.seabornCrews.Utils;
 import jdk.jshell.SourceCodeAnalysis;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class IslandService {
@@ -24,10 +26,12 @@ public class IslandService {
 
     private AdvancedSlimePaperAPI api;
     private SlimeLoader loader;
+    private Location exitLocation;
 
-    public IslandService(AdvancedSlimePaperAPI api, SlimeLoader loader) {
+    public IslandService(AdvancedSlimePaperAPI api, SlimeLoader loader, Location exitLocation) {
         this.api = api;
         this.loader = loader;
+        this.exitLocation = exitLocation;
     }
 
     private SlimePropertyMap getPropertyMap() {
@@ -139,6 +143,11 @@ public class IslandService {
         }
 
         World bukkitWorld = world.getBukkitWorld();
+
+        for (Player player : bukkitWorld.getPlayers()) {
+            player.teleport(this.exitLocation);
+        }
+
         try {
 
             SeabornCrews.getInstance().getLogger().info("Unloading world " + worldId);
@@ -202,6 +211,18 @@ public class IslandService {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    public void kickFromIsland(String worldId, UUID playerUUID) {
+        SlimeWorldInstance world = api.getLoadedWorld(worldId);
+        if (world == null) return;
+
+        World bukkitWorld = world.getBukkitWorld();
+        for (Player player : bukkitWorld.getPlayers()) {
+            if (player.getUniqueId().equals(playerUUID)) {
+                player.teleport(this.exitLocation);
+            }
+        }
     }
 
 }

@@ -221,4 +221,18 @@ public class CrewDAO {
         return null;
     }
 
+    // Update member role
+    public void updateMemberRole(int crewId, String memberUuid, String newRole) throws SQLException {
+        String sql = "UPDATE crew_members SET role = ? WHERE crew_id = ? AND member_uuid = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, newRole);
+            stmt.setInt(2, crewId);
+            stmt.setString(3, memberUuid);
+            stmt.executeUpdate();
+        }
+    }
+
+
 }

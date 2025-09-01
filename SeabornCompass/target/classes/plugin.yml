@@ -2,6 +2,6 @@ name: SeabornCompass
 version: '1.0-SNAPSHOT'
 main: com.seabornmc.seabornCompass.SeabornCompass
 api-version: '1.21'
-load: STARTUP
+load: POSTWORLD
 authors: [ Niki ]
-depend: [ NotQuests ]
+depend: [ NotQuests, packetevents ]

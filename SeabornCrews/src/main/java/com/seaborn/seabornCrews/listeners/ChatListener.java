@@ -32,7 +32,21 @@ public class ChatListener implements Listener {
                 Crew crew = SeabornCrews.getCrewService().getPlayerCrew(event.getPlayer().getUniqueId());
                 if (crew != null) {
                     event.setCancelled(true);
-                    Component message = Utils.formatText("<aqua>[CREW] " + event.getPlayer().getName() + ": <dark_aqua>" + event.getMessage().replaceFirst("!", ""));
+
+                    CrewMember senderMember = SeabornCrews.getCrewService().getCrewMember(crew.getId(), event.getPlayer().getUniqueId());
+                    String formattedName = event.getPlayer().getName();
+                    switch (senderMember.getRole()) {
+                        case "captain":
+                            formattedName = "<yellow>\uD83D\uDC51 " + formattedName + "</yellow>";
+                            break;
+                        case "quartermaster":
+                            formattedName = "<blue>⚔ " + formattedName + "</blue>";
+                            break;
+                        default:
+                            formattedName = formattedName;
+                    }
+
+                    Component message = Utils.formatText("<aqua>[CREW] " + formattedName + ": <dark_aqua>" + event.getMessage().replaceFirst("!", ""));
                     List<CrewMember> members = SeabornCrews.getCrewService().getCrewMembers(crew.getId());
                     for (CrewMember member : members) {
                         Player player = Bukkit.getPlayer(UUID.fromString(member.getMemberUuid()));

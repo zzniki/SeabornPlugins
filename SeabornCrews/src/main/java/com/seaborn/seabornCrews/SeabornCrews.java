@@ -18,6 +18,7 @@ import dev.jorel.commandapi.CommandAPI;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.trait.TraitInfo;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -77,7 +78,8 @@ public class SeabornCrews extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
 
-        islandService = new IslandService(aspApi, loader);
+        Location exitLocation = new Location(Bukkit.getWorld("world"), 913.5, 82.5, 333.5, 90f, 0.0f);
+        islandService = new IslandService(aspApi, loader, exitLocation);
 
         getServer().getPluginManager().registerEvents(new IslandListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);

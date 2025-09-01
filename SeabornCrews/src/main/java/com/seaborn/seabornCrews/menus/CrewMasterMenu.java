@@ -107,7 +107,7 @@ public class CrewMasterMenu {
                 .setTitle(new TextComponent[] { crewNameWindowTitle })
                 .build(player);
 
-        TextComponent crewTagWindowTitle = new TextComponent("-112346889\ua000");
+        TextComponent crewTagWindowTitle = new TextComponent("-112346889\ua002");
         crewTagWindowTitle.setFont("seaborn_images:guis");
         crewTagWindowTitle.setColor(ChatColor.WHITE);
 

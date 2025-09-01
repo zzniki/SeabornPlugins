@@ -32,7 +32,7 @@ public class CrewMasterTrait extends Trait {
                 if (SeabornCrews.getCrewService().isPlayerInAnyCrew(player.getUniqueId())) {
                     SeabornCore.getDialogueManager().showDialogue(
                             event.getClicker(),
-                            "You are already in a crew, I am not of any help.",
+                            "Type \"/crew\" to view all available crew commands.",
                             (none) -> {return null;}
                     );
                 } else {
