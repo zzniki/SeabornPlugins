@@ -23,6 +23,18 @@ public class CustomRodItem {
         this.difficulty = 1f;
     }
 
+    public CustomRodItem(ItemStack stack) {
+        String rodTypeId = NBT.get(stack, nbt -> (String) nbt.getString("rod_type"));
+        if (SeabornFishing.config.getCustomRods().containsKey(rodTypeId)) {
+            CustomRod baseRod = SeabornFishing.config.getCustomRod(rodTypeId);
+            this.baseRod = baseRod;
+            this.luckMultiplier = 1f;
+            this.difficulty = 1f;
+        }
+
+        this.loadItemStack(stack);
+    }
+
     public ItemStack getItemStack() {
         ItemStack item = new ItemStack(Material.FISHING_ROD);
 

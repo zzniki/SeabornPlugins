@@ -3,6 +3,7 @@ package com.seaborn.seabornShips;
 import de.tr7zw.nbtapi.NBT;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -20,13 +21,13 @@ public class BoatItems {
     public static ItemStack getItemFromType(BoatType boatType) {
         ItemStack item = new ItemStack(Material.BAMBOO_RAFT);
 
-        List<TextComponent> lore = new ArrayList<>(boatType.getLore().stream().map(Component::text).toList());
+        List<Component> lore = new ArrayList<>(boatType.getLore().stream().map(t -> "<gray>" + t).map(Utils::formatText).map(c -> c.decoration(TextDecoration.ITALIC, false)).toList());
         lore.add(Component.text(""));
-        lore.add(Component.text(ChatColor.WHITE + "Speed: " + ChatColor.DARK_AQUA + boatType.getSpeed() + " blocks/sec"));
+        lore.add(Utils.formatText("<white>Speed: <dark_aqua>" + boatType.getSpeed() + " blocks/sec").decoration(TextDecoration.ITALIC, false));
 
         item.editMeta(meta -> {
-            meta.customName(Component.text(boatType.getName().replaceAll("&", "§")));
-            meta.setItemModel(boatType.getEntityModel());
+            meta.customName(Utils.formatText(boatType.getName()).decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(boatType.getItemModel());
             meta.lore(lore);
         });
 

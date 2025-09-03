@@ -3,12 +3,14 @@ com\seaborn\seabornFishing\FishSelector.class
 com\seaborn\seabornFishing\Config.class
 com\seaborn\seabornFishing\emote\EmoteFunc.class
 com\seaborn\seabornFishing\Rarity.class
+com\seaborn\seabornFishing\guis\RodUpgradeGUI$ConfirmItem.class
 com\seaborn\seabornFishing\rewards\FishItemReward.class
 com\seaborn\seabornFishing\emote\EmoteListener$1.class
 com\seaborn\seabornFishing\minigames\GameSchedule.class
 com\seaborn\seabornFishing\events\GameEndEvent.class
 com\seaborn\seabornFishing\minigames\NumbersGame.class
 com\seaborn\seabornFishing\Fish.class
+com\seaborn\seabornFishing\guis\RodUpgradeGUI$ExitItem.class
 com\seaborn\seabornFishing\minigames\NumbersGame$2.class
 com\seaborn\seabornFishing\Utils.class
 com\seaborn\seabornFishing\emote\EmoteListener.class
@@ -25,8 +27,10 @@ com\seaborn\seabornFishing\Minigame.class
 com\seaborn\seabornFishing\dialogs\FishmongerDialog.class
 com\seaborn\seabornFishing\Region.class
 com\seaborn\seabornFishing\api\APILoader.class
+com\seaborn\seabornFishing\guis\RodUpgradeGUI$DifficultyLabelItem.class
 com\seaborn\seabornFishing\Listeners.class
 com\seaborn\seabornFishing\dialogs\BestiaryDialog.class
+com\seaborn\seabornFishing\guis\RodUpgradeGUI$LuckLabelItem.class
 com\seaborn\seabornFishing\api\APISettings.class
 com\seaborn\seabornFishing\CustomRod.class
 com\seaborn\seabornFishing\commands\RodCommand.class

@@ -57,6 +57,7 @@ public class APILoader {
 
                 // Store model UUID as a NamespacedKey
                 boat.setEntityModel(new NamespacedKey("seaborn_boats", id));
+                boat.setItemModel(new NamespacedKey("seaborn_boats", "item_" + id));
 
                 // Add description as lore
                 List<String> lore = new ArrayList<>();

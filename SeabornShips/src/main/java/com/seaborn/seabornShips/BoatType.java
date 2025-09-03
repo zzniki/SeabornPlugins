@@ -10,6 +10,7 @@ public class BoatType {
     private String name;
     private double speed; // Blocks per second
     private NamespacedKey entityModel;
+    private NamespacedKey itemModel;
     private List<String> lore;
 
     public BoatType(String id) {
@@ -42,6 +43,14 @@ public class BoatType {
 
     public void setEntityModel(NamespacedKey itemModel) {
         this.entityModel = itemModel;
+    }
+
+    public NamespacedKey getItemModel() {
+        return itemModel;
+    }
+
+    public void setItemModel(NamespacedKey itemModel) {
+        this.itemModel = itemModel;
     }
 
     public List<String> getLore() {

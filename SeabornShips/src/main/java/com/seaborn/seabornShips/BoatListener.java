@@ -48,6 +48,10 @@ public class BoatListener implements Listener {
         Entity boatEntity = event.getEntity();
 
         if (event.getPlayer() == null) return;
+        if (event.getBlock().getType() != Material.WATER) {
+            event.getPlayer().sendMessage(Utils.formatText("<red>You can only place boats on water."));
+            return;
+        }
 
         Player player = event.getPlayer();
         ItemStack boatItem = player.getInventory().getItemInMainHand();
@@ -128,7 +132,30 @@ public class BoatListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
         if (event.getEntity().customName() == null) return;
-        if (((TextComponent) event.getEntity().customName()).content().equals("___BoatDisplay")) event.setCancelled(true);
+        if (((TextComponent) event.getEntity().customName()).content().equals("___BoatDisplay")) {
+            event.setCancelled(true);
+
+            Entity vehicleEntity = event.getEntity().getVehicle();
+            if (vehicleEntity != null && vehicleEntity.getType() == EntityType.BAMBOO_RAFT && event.getDamager() instanceof Player) {
+                Vehicle vehicle = (Vehicle) vehicleEntity;
+                Player player = (Player) event.getDamager();
+
+                if (!BoatUtils.isOwner(player, vehicle)) {
+                    player.sendMessage("You cannot destroy other players' boats!");
+                } else { // Player is owner
+
+                    ItemStack item = BoatItems.getBoatItemFromEntity(plugin, vehicle);
+                    player.getInventory().addItem(item);
+                    player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f);
+
+                    BoatUtils.deleteBoat(vehicle);
+                    spawnedBoats.remove(player.getUniqueId().toString());
+                    driveStatus.remove(player);
+
+                }
+
+            }
+        }
     }
 
     @EventHandler

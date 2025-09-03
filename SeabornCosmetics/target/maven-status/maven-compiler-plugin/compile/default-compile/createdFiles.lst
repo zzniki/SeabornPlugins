@@ -1,5 +1,6 @@
 com\seabornmc\seabornCosmetics\Utils.class
 com\seabornmc\seabornCosmetics\cosmetics\items\HatItem.class
+com\seabornmc\seabornCosmetics\Listeners.class
 com\seabornmc\seabornCosmetics\CosmeticManager.class
 com\seabornmc\seabornCosmetics\SeabornCosmetics.class
 com\seabornmc\seabornCosmetics\APILoader.class

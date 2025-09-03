@@ -22,6 +22,8 @@ public final class SeabornCosmetics extends JavaPlugin {
 
         new HatsCommand().getCommand().register(this);
 
+        getServer().getPluginManager().registerEvents(new Listeners(), this);
+
     }
 
     @Override

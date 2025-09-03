@@ -5,6 +5,7 @@ import com.seabornmc.seabornCosmetics.cosmetics.Hat;
 import de.tr7zw.nbtapi.NBT;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +25,7 @@ public class HatItem {
         ItemStack item = new ItemStack(Material.CARVED_PUMPKIN);
 
         item.editMeta(meta -> {
-            meta.displayName(Utils.formatText("<white>" + this.hat.getDisplayName()));
+            meta.displayName(Utils.formatText("<white>" + this.hat.getDisplayName()).decoration(TextDecoration.ITALIC, false));
             meta.lore(getLore());
             meta.setItemModel(this.hat.getItemModel());
         });
@@ -41,7 +42,7 @@ public class HatItem {
         List<TextComponent> lore = new ArrayList<>();
 
         if (this.hat.getShortDescription() != null && !this.hat.getShortDescription().isEmpty()) {
-            lore.add((TextComponent) Utils.formatText("<gray>" + this.hat.getShortDescription()));
+            lore.add((TextComponent) Utils.formatText("<gray>" + this.hat.getShortDescription()).decoration(TextDecoration.ITALIC, false));
         }
 
         return lore;

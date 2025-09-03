@@ -4,9 +4,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SeabornDuel extends JavaPlugin {
 
+    private static SeabornDuel instance;
+
+    private DuelManager duelManager;
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
+
+        instance = this;
+
+        this.duelManager = new DuelManager(1);
 
     }
 
@@ -14,4 +21,6 @@ public final class SeabornDuel extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
     }
+
+    public static SeabornDuel getInstance() { return instance; }
 }

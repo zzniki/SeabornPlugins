@@ -3,6 +3,7 @@ package com.seaborn.seabornFishing.commands;
 import com.seaborn.seabornFishing.CustomRod;
 import com.seaborn.seabornFishing.CustomRodItem;
 import com.seaborn.seabornFishing.SeabornFishing;
+import com.seaborn.seabornFishing.Utils;
 import com.seaborn.seabornFishing.guis.RodUpgradeGUI;
 import de.tr7zw.nbtapi.NBT;
 import dev.jorel.commandapi.CommandAPICommand;
@@ -104,6 +105,13 @@ public class RodCommand {
                 .withPermission("seaborn.rod.upgrade")
                 .executes((sender, args) -> {
                     Player player = (Player) sender;
+                    ItemStack original = player.getInventory().getItemInMainHand();
+
+                    if (original.getType() != Material.FISHING_ROD || !NBT.get(original, nbt -> (String) nbt.getString("sb_item_type")).equals("rod")) {
+                        player.sendMessage(Utils.formatTextMM("<red>You must be holding a rod."));
+                        return;
+                    }
+
                     new RodUpgradeGUI(player).show();
                 });
     }

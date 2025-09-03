@@ -25,7 +25,7 @@ public class ChatListener implements Listener, ChatRenderer {
         else crewTag = "<aqua>[" + crewTag + "] ";
 
         return Utils.formatText(crewTag)
-                .append(Utils.formatText(rank))
+                .append(Utils.formatText("<font:seaborn_images:ranks>" + rank + "</font>"))
                 .append(Component.text(" "))
                 .append(sourceDisplayName)
                 .append(Component.text(": "))

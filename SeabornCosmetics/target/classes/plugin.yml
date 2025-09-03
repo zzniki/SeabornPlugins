@@ -2,3 +2,4 @@ name: SeabornCosmetics
 version: '1.0-SNAPSHOT'
 main: com.seabornmc.seabornCosmetics.SeabornCosmetics
 api-version: '1.21'
+depend: [CommandAPI]
