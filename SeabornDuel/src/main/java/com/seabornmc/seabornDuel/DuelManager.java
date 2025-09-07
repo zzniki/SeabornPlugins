@@ -27,15 +27,29 @@ public class DuelManager {
 
     }
 
-    public void startDuel(List<Player> team1, List<Player> team2, BoundingBox loc1, BoundingBox loc2) {
+    public boolean isDuelHappening() {
+        return this.currentDuels.size() >= this.maxDuels;
+    }
+
+    public void startDuel(List<Player> team1, List<Player> team2, String team1Name, String team2Name, BoundingBox loc1, BoundingBox loc2) {
 
         if (currentDuels.size() >= maxDuels) {
             throw new RuntimeException("There's already a duel in progress, please wait until it's end.");
         }
 
-        Duel duel = new Duel(SeabornDuel.getInstance(), team1, team2, loc1, loc2, 10 * 60 * 20); // 10 minutes
-        duel.setOnEnd(() -> {
+        Duel duel = new Duel(
+                SeabornDuel.getInstance(),
+                team1,
+                team2,
+                team1Name,
+                team2Name,
+                loc1,
+                loc2,
+                10 * 60 * 20
+        ); // 10 minutes
+        duel.setOnEnd((none) -> {
             this.currentDuels.remove(duel);
+            return null;
         });
 
         this.currentDuels.add(duel);
@@ -46,7 +60,7 @@ public class DuelManager {
 
     public void endAllDuels() {
         for (Duel duel : this.currentDuels) {
-            duel.endDuel();
+            duel.endDuel(-1);
         }
     }
 

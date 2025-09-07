@@ -1,0 +1,7 @@
+com\seabornmc\seabornDuel\Duel.class
+com\seabornmc\seabornDuel\SeabornDuel.class
+com\seabornmc\seabornDuel\commands\DuelCommand.class
+com\seabornmc\seabornDuel\DuelManager.class
+com\seabornmc\seabornDuel\Utils.class
+com\seabornmc\seabornDuel\InviteManager.class
+com\seabornmc\seabornDuel\DuelInvite.class

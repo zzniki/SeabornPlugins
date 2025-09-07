@@ -2,10 +2,7 @@ package com.seabornmc.seabornDuel;
 
 import com.google.common.base.Function;
 import net.kyori.adventure.title.Title;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,12 +15,17 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class Duel implements Listener {
 
     private List<Player> team1;
     private List<Player> team2;
     private List<Player> aliveTeam1;
     private List<Player> aliveTeam2;
+
+    private String team1Name;
+    private String team2Name;
 
     private BoundingBox loc1;
     private BoundingBox loc2;
@@ -41,9 +43,12 @@ public class Duel implements Listener {
 
     private Function<Void, Void> onEndFunction = null;
 
-    public Duel(SeabornDuel plugin, List<Player> team1, List<Player> team2, BoundingBox loc1, BoundingBox loc2, int maxTicks) {
+    public Duel(SeabornDuel plugin, List<Player> team1, List<Player> team2, String team1Name, String team2Name, BoundingBox loc1, BoundingBox loc2, int maxTicks) {
         this.team1 = team1;
         this.team2 = team2;
+
+        this.team1Name = team1Name;
+        this.team2Name = team2Name;
 
         this.aliveTeam1 = new ArrayList<>(team1);
         this.aliveTeam2 = new ArrayList<>(team2);
@@ -65,33 +70,45 @@ public class Duel implements Listener {
         this.passedTicks++;
 
         if (this.passedTicks >= this.maxTicks) {
-            this.endDuel();
+            this.endDuel(-1);
         }
 
     }
 
 
     public Location getLocation(World world, BoundingBox teamloc, Random random) {
-        Location result = new Location(
-                world,
-                random.nextDouble(teamloc.getMinX(), teamloc.getMaxX()),
-                random.nextDouble(teamloc.getMinY(), teamloc.getMaxY()),
-                random.nextDouble(teamloc.getMinZ(), teamloc.getMaxZ())
-        );
+        // Normalize min/max for each axis
+        double minX = Math.min(teamloc.getMinX(), teamloc.getMaxX());
+        double maxX = Math.max(teamloc.getMinX(), teamloc.getMaxX());
+        double x = (minX == maxX) ? minX : random.nextDouble(minX, maxX);
+
+        double minY = Math.min(teamloc.getMinY(), teamloc.getMaxY());
+        double maxY = Math.max(teamloc.getMinY(), teamloc.getMaxY());
+        double y = (minY == maxY) ? minY : random.nextDouble(minY, maxY);
+
+        double minZ = Math.min(teamloc.getMinZ(), teamloc.getMaxZ());
+        double maxZ = Math.max(teamloc.getMinZ(), teamloc.getMaxZ());
+        double z = (minZ == maxZ) ? minZ : random.nextDouble(minZ, maxZ);
+
+        Location result = new Location(world, x, y, z);
 
         Block block = result.getBlock();
-        if (block.getType() != Material.AIR || block.getLocation().add(new Vector(0,-1,0)).getBlock().getType()==Material.AIR ) {
+        if (block.getType() != Material.AIR ||
+                block.getLocation().add(0, -1, 0).getBlock().getType() == Material.AIR) {
+            // Retry until we find a valid location
             return getLocation(world, teamloc, random);
         }
 
         return result;
     }
 
+
     public void setOnEnd(Function<Void, Void> func) {
         this.onEndFunction = func;
     }
 
     public void startDuel() {
+
         World world = this.plugin.getServer().getWorld("world");
         Random random = new Random();
 
@@ -101,7 +118,7 @@ public class Duel implements Listener {
         }
         for (Player player : team2){
             this.oldLocation.put(player, player.getLocation());
-            player.teleport(getLocation(world, loc1, random));
+            player.teleport(getLocation(world, loc2, random));
         }
 
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
@@ -109,21 +126,31 @@ public class Duel implements Listener {
     }
 
     private void markAsDead(Player player) {
+
+        int winnerId;
+
         if (aliveTeam1.contains(player)) {
             aliveTeam1.remove(player);
 
             player.setGameMode(GameMode.SPECTATOR);
+            winnerId = 2;
 
         } else if (aliveTeam2.contains(player)) {
 
-            player.setGameMode(GameMode.SURVIVAL);
+            player.setGameMode(GameMode.SPECTATOR);
 
             aliveTeam2.remove(player);
+            winnerId = 1;
+        } else {
+            winnerId = -1;
         }
 
 
         if (aliveTeam1.isEmpty() || aliveTeam2.isEmpty()) {
-            this.endDuel();
+
+            Bukkit.getScheduler().runTaskLater(SeabornDuel.getInstance(), () -> {
+                this.endDuel(winnerId);
+            }, 20L);
         }
     }
 
@@ -152,14 +179,16 @@ public class Duel implements Listener {
         }
     }
 
-    public void endDuel(String winner) {
+    public void endDuel(int winnerId) {
 
         this.inProgress = false;
 
-        for(Player player : team1) {
+        for (Player player : team1) {
+            player.setGameMode(GameMode.SURVIVAL);
             player.teleport(oldLocation.get(player));
         }
-        for(Player player : team2) {
+        for (Player player : team2) {
+            player.setGameMode(GameMode.SURVIVAL);
             player.teleport(oldLocation.get(player));
         }
         this.inProgress = false;
@@ -169,8 +198,11 @@ public class Duel implements Listener {
 
         if (this.onEndFunction != null) this.onEndFunction.apply(null);
 
+        String winner = winnerId == 1 ? team1Name : team2Name;
+        String titleStr = winnerId == -1 ? "<green>It's a tie!" : "<green>" + winner + " has won!";
+
         Title title = Title.title(
-                Utils.formatText("<green>" + winner + "has won!"),
+                Utils.formatText(titleStr),
                 Utils.formatText("<white>The battle has ended.")
         );
 
