@@ -19,8 +19,8 @@ public class CustomRodItem {
 
     public CustomRodItem(CustomRod baseRod) {
         this.baseRod = baseRod;
-        this.luckMultiplier = 1f;
-        this.difficulty = 1f;
+        this.luckMultiplier = 0f;
+        this.difficulty = 0f;
     }
 
     public CustomRodItem(ItemStack stack) {
@@ -28,8 +28,8 @@ public class CustomRodItem {
         if (SeabornFishing.config.getCustomRods().containsKey(rodTypeId)) {
             CustomRod baseRod = SeabornFishing.config.getCustomRod(rodTypeId);
             this.baseRod = baseRod;
-            this.luckMultiplier = 1f;
-            this.difficulty = 1f;
+            this.luckMultiplier = 0f;
+            this.difficulty = 0f;
         }
 
         this.loadItemStack(stack);
@@ -89,8 +89,8 @@ public class CustomRodItem {
     public float getBaseLuck() { return this.getBaseRod().getLuckMultiplier(); }
     public float getBaseDifficulty() { return this.getBaseRod().getDifficulty(); }
 
-    public float getTotalLuck() { return this.getBaseLuck() * this.getLuckMultiplier(); }
-    public float getTotalDifficulty() { return this.getBaseDifficulty() * this.getDifficulty(); }
+    public float getTotalLuck() { return this.getBaseLuck() + this.getLuckMultiplier(); }
+    public float getTotalDifficulty() { return this.getBaseDifficulty() + this.getDifficulty(); }
 
     public List<TextComponent> getLore() {
         List<TextComponent> res = new ArrayList<>();

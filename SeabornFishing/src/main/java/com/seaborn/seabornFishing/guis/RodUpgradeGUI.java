@@ -23,8 +23,10 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
+import xyz.xenondevs.invui.window.AbstractWindow;
 import xyz.xenondevs.invui.window.Window;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -50,11 +52,19 @@ public class RodUpgradeGUI {
     private ItemStack original;
     private CustomRodItem rod;
 
-    private float price = 0;
+    private double luckPrice = 0;
+    private double diffPrice = 0;
 
-    // NamespacedKeys for persistent data
-    private final NamespacedKey luckKey = new NamespacedKey("seaborn_fishing", "luck");
-    private final NamespacedKey difficultyKey = new NamespacedKey("seaborn_fishing", "difficulty");
+    private float luckUpgrade = 0;
+    private float diffUpgrade = 0;
+
+    private LuckLabelItem luckLabelItem;
+    private DifficultyLabelItem difficultyLabelItem;
+    private ConfirmItem confirmItem;
+
+    private double calcPrice(float totalUpgrade) {
+        return Math.pow(totalUpgrade, 6.5) + 700 * totalUpgrade;
+    }
 
     public RodUpgradeGUI(Player player) {
         this.player = player;
@@ -82,17 +92,15 @@ public class RodUpgradeGUI {
             meta.setItemModel(new NamespacedKey("seaborn_icons", "empty"));
         });
 
-        ItemStack confirmItemStack = new ItemStack(Material.PAPER);
-        confirmItemStack.editMeta((meta) -> {
-            meta.customName(Utils.formatTextMM("<green>Confirm").decoration(TextDecoration.ITALIC, false));
-            meta.setItemModel(new NamespacedKey("seaborn_icons", "empty"));
-        });
-
         ItemStack cancelItemStack = new ItemStack(Material.PAPER);
         cancelItemStack.editMeta((meta) -> {
             meta.customName(Utils.formatTextMM("<red>Cancel").decoration(TextDecoration.ITALIC, false));
             meta.setItemModel(new NamespacedKey("seaborn_icons", "empty"));
         });
+
+        this.luckLabelItem = new LuckLabelItem();
+        this.difficultyLabelItem = new DifficultyLabelItem();
+        this.confirmItem = new ConfirmItem();
 
         // Build GUI structure (matches user's layout)
         gui = Gui.normal()
@@ -105,9 +113,9 @@ public class RodUpgradeGUI {
                         ". . . C C C . N ."
                 )
                 .addIngredient('R', new SimpleItem(this.rod.getItemStack()))
-                .addIngredient('L', new LuckLabelItem())
-                .addIngredient('D', new DifficultyLabelItem())
-                .addIngredient('C', new ConfirmItem(confirmItemStack))
+                .addIngredient('L', this.luckLabelItem)
+                .addIngredient('D', this.difficultyLabelItem)
+                .addIngredient('C', this.confirmItem)
                 .addIngredient('N', new ExitItem(cancelItemStack))
                 .build();
 
@@ -125,6 +133,12 @@ public class RodUpgradeGUI {
     public void show() {
         this.currentWindow.open();
     }
+    private void updateWindow() {
+        AbstractWindow w = ((AbstractWindow) this.currentWindow);
+        w.handleItemProviderUpdate(luckLabelItem);
+        w.handleItemProviderUpdate(difficultyLabelItem);
+        w.handleItemProviderUpdate(confirmItem);
+    }
 
     // === Item classes ===
 
@@ -135,11 +149,20 @@ public class RodUpgradeGUI {
         public ItemBuilder getItemProvider() {
             ItemStack item = new ItemStack(Material.PAPER);
             item.editMeta(meta -> {
-                meta.customName(Utils.formatTextMM("<yellow>Luck").decoration(TextDecoration.ITALIC, false));
+                meta.customName(Utils.formatTextMM("<bold>Luck").decoration(TextDecoration.ITALIC, false));
                 meta.setItemModel(new NamespacedKey("seaborn_icons", "empty"));
-                float luck = rod.getTotalLuck();
-                String luckStr = String.valueOf(Math.round(luck * 100f) / 100f);
-                meta.lore(java.util.List.of(Component.text("Click to add luck"), Component.text("Value: " + luckStr)));
+
+                String luckStr = String.valueOf(Math.round((rod.getTotalLuck() + luckUpgrade) * 100f) / 100f);
+                String priceStr = String.valueOf(Math.round(calcPrice(luckUpgrade + 0.1f) * 100f) / 100f);
+                String currentPriceStr = String.valueOf(Math.round(luckPrice * 100f) / 100f);
+
+                meta.lore(java.util.List.of(
+                        Utils.formatTextMM("<white>Click to add luck").decoration(TextDecoration.ITALIC, false),
+                        Utils.formatTextMM("<green>Add 0.1x [" + priceStr + " ⛃]").decoration(TextDecoration.ITALIC, false),
+                        Component.text(""),
+                        Utils.formatTextMM("<white>Current value: <dark_aqua>" + luckStr).decoration(TextDecoration.ITALIC, false),
+                        Utils.formatTextMM("<white>Current price: <dark_aqua>" + currentPriceStr).decoration(TextDecoration.ITALIC, false)
+                ));
             });
             return new ItemBuilder(item);
         }
@@ -147,10 +170,10 @@ public class RodUpgradeGUI {
         @Override
         public void handleClick(ClickType clickType, Player player, InventoryClickEvent event) {
             // increment luck by 1 on left click, by 5 on shift-left
-            int delta = clickType.isShiftClick() ? 5 : 1;
-            float newLuck = rod.getLuckMultiplier() + delta;
-            rod.setLuckMultiplier(newLuck);
-            notifyWindows(); // refresh this slot
+            float delta = clickType.isShiftClick() ? 1 : 0.1f;
+            luckUpgrade += delta;
+            luckPrice += calcPrice(luckUpgrade);
+            updateWindow();
         }
     }
 
@@ -165,7 +188,11 @@ public class RodUpgradeGUI {
                 meta.setItemModel(new NamespacedKey("seaborn_icons", "empty"));
                 float diff = rod.getTotalDifficulty();
                 String diffStr = String.valueOf(Math.round(diff * 100f) / 100f);
-                meta.lore(java.util.List.of(Component.text("Click to reduce difficulty"), Component.text("Value: " + diffStr)));
+                meta.lore(java.util.List.of(
+                        Utils.formatTextMM("<green>Click to reduce difficulty").decoration(TextDecoration.ITALIC, false),
+                        Utils.formatTextMM("<green>Substracts 0.1x").decoration(TextDecoration.ITALIC, false),
+                        Utils.formatTextMM("<white>Current Value: <dark_aqua>" + diffStr).decoration(TextDecoration.ITALIC, false)
+                ));
             });
             return new ItemBuilder(item);
         }
@@ -182,15 +209,23 @@ public class RodUpgradeGUI {
     }
 
     private class ConfirmItem extends AbstractItem {
-        private final ItemStack template;
-
-        ConfirmItem(ItemStack template) {
-            this.template = template;
-        }
 
         @Override
         public ItemBuilder getItemProvider() {
-            return new ItemBuilder(template);
+
+            ItemStack confirmItemStack = new ItemStack(Material.PAPER);
+
+            String priceStr = String.valueOf(Math.round((luckPrice + diffPrice) * 100f) / 100f);
+
+            confirmItemStack.editMeta((meta) -> {
+                meta.customName(Utils.formatTextMM("<green>Confirm").decoration(TextDecoration.ITALIC, false));
+                meta.setItemModel(new NamespacedKey("seaborn_icons", "empty"));
+                meta.lore(List.of(
+                        Utils.formatTextMM(priceStr).decoration(TextDecoration.ITALIC, false)
+                ));
+            });
+
+            return new ItemBuilder(confirmItemStack);
         }
 
         @Override
@@ -199,6 +234,7 @@ public class RodUpgradeGUI {
 
             if (held != null && held.getType() == Material.FISHING_ROD && held.equals(original)) {
 
+                double price = luckPrice + diffPrice;
                 double balance = SeabornFishing.getEconomy().getBalance(player);
                 if (balance >= price) {
                     if (SeabornFishing.getEconomy().withdrawPlayer(player, price).transactionSuccess()) {
